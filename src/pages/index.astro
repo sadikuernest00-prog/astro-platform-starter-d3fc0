@@ -1,19 +1,407 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Markdown from '../components/Markdown.astro';
-
-const explainer = `
-An Astro website can go way beyond static pages - on the right platform.
-
-Netlify supports not only [Streaming SSR](https://docs.astro.build/en/guides/server-side-rendering/#html-streaming) and fast [Edge Middleware](https://docs.astro.build/en/guides/middleware/), but also [on-demand revalidation](https://www.netlify.com/blog/cache-tags-and-purge-api-on-netlify/) and [stale-while-revalidate](https://www.netlify.com/blog/swr-and-fine-grained-cache-control/). 
-Any page or data can be rebuilt only when needed, without site visitors ever getting a performance hit.
-`;
+const site = {
+  name: "AmicBridge",
+  tagline: "A private bridge between borrowers, lenders, and business partners.",
+  desc:
+    "AmicBridge is a private peer-to-peer network for introductions and structured agreements. We are not a bank, do not custody funds, and do not guarantee repayment.",
+};
 ---
 
-<Layout title="Welcome to Astro.">
-    <h1 class="mb-10">Netlify Platform Starter for Astro</h1>
-    <Markdown content={explainer} class="mb-10 text-lg" />
-    <p>
-        <a href="https://docs.netlify.com/frameworks/astro/" class="btn btn-lg sm:min-w-64">Read the Docs</a>
-    </p>
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.name} — {site.tagline}</title>
+    <meta name="description" content={site.desc} />
+
+    <style>
+      :root {
+        --bg: #0b1220;
+        --bg2: #0f1b33;
+        --surface: rgba(255, 255, 255, 0.06);
+        --surface2: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.12);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.68);
+        --muted2: rgba(255, 255, 255, 0.55);
+        --primary: #4f8cff;
+        --primaryHover: #2f76ff;
+        --good: #52d29a;
+        --warn: #ffd66b;
+        --radius: 16px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --max: 1120px;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        color: var(--text);
+        background:
+          radial-gradient(900px 500px at 15% 10%, rgba(79, 140, 255, 0.22), transparent 60%),
+          radial-gradient(700px 450px at 85% 15%, rgba(82, 210, 154, 0.14), transparent 60%),
+          linear-gradient(180deg, var(--bg), var(--bg2));
+      }
+
+      a { color: inherit; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .container { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-weight: 650;
+        cursor: pointer;
+        transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease;
+        box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+      }
+      .btn:hover { background: rgba(255, 255, 255, 0.07); transform: translateY(-1px); text-decoration: none; }
+      .btnPrimary {
+        background: linear-gradient(180deg, rgba(79, 140, 255, 0.95), rgba(47, 118, 255, 0.95));
+        border-color: rgba(79, 140, 255, 0.55);
+        color: #fff;
+      }
+      .btnPrimary:hover { background: linear-gradient(180deg, rgba(79, 140, 255, 1), rgba(47, 118, 255, 1)); }
+
+      .pill {
+        display:inline-flex; align-items:center; gap:8px;
+        font-size: 12px; color: var(--muted);
+        padding: 7px 10px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.04);
+      }
+      .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--good); box-shadow: 0 0 0 4px rgba(82, 210, 154, 0.16); }
+
+      header {
+        position: sticky; top: 0; z-index: 50;
+        backdrop-filter: blur(10px);
+        background: rgba(11, 18, 32, 0.55);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        display:flex; align-items:center; justify-content: space-between;
+        padding: 12px 0;
+      }
+      .brand { display:flex; align-items:center; gap:12px; }
+      .logo {
+        width: 36px; height: 36px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(79, 140, 255, 1), rgba(82, 210, 154, 0.9));
+        box-shadow: var(--shadow);
+      }
+      .brandName { font-weight: 800; letter-spacing: 0.2px; }
+      .navlinks { display:flex; gap: 14px; align-items:center; }
+      .navlinks a {
+        color: var(--muted);
+        font-weight: 650;
+        font-size: 14px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+      }
+      .navlinks a:hover { color: var(--text); border-color: var(--border); text-decoration: none; }
+
+      .hero { padding: 52px 0 18px; }
+      .heroGrid {
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+      @media (min-width: 980px) {
+        .heroGrid { grid-template-columns: 1.25fr 0.75fr; }
+      }
+
+      h1 {
+        margin: 10px 0 12px;
+        font-size: clamp(28px, 3.4vw, 44px);
+        line-height: 1.08;
+        letter-spacing: -0.6px;
+      }
+      .lead {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.6;
+        max-width: 62ch;
+      }
+      .actions { display:flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+      .card {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+      .cardTitle { font-weight: 800; margin: 0 0 6px; }
+      .cardText { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
+
+      .section { padding: 26px 0; }
+      .sectionHead { display:flex; justify-content: space-between; gap: 14px; align-items: baseline; margin-bottom: 12px; }
+      .h2 { margin: 0; font-size: 18px; font-weight: 850; letter-spacing: -0.2px; }
+      .hint { color: var(--muted2); font-size: 13px; line-height: 1.4; }
+
+      .grid3 {
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 880px) {
+        .grid3 { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      .howGrid {
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 980px) {
+        .howGrid { grid-template-columns: 1fr 1fr; }
+      }
+
+      .step {
+        display:flex; gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.04);
+        border-radius: var(--radius);
+      }
+      .badge {
+        width: 34px; height: 34px;
+        border-radius: 12px;
+        display:flex; align-items:center; justify-content:center;
+        background: rgba(79,140,255,0.18);
+        border: 1px solid rgba(79,140,255,0.30);
+        font-weight: 900;
+        color: rgba(255,255,255,0.92);
+      }
+      .step h3 { margin: 0 0 4px; font-size: 14px; font-weight: 900; }
+      .step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+      .notice {
+        border: 1px solid rgba(255, 214, 107, 0.28);
+        background: rgba(255, 214, 107, 0.08);
+        border-radius: var(--radius);
+        padding: 14px;
+        color: rgba(255,255,255,0.86);
+      }
+      .notice strong { color: rgba(255,255,255,0.95); }
+      .notice p { margin: 6px 0 0; color: rgba(255,255,255,0.72); line-height: 1.55; font-size: 13px; }
+
+      footer {
+        margin-top: 24px;
+        border-top: 1px solid var(--border);
+        padding: 22px 0 34px;
+        color: var(--muted);
+      }
+      .footGrid {
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      @media (min-width: 900px) {
+        .footGrid { grid-template-columns: 1.3fr 0.7fr 1fr; }
+      }
+      .footTitle { font-weight: 900; color: rgba(255,255,255,0.86); margin: 0 0 8px; }
+      .footLinks { display:flex; flex-direction: column; gap: 8px; }
+      .footLinks a { color: var(--muted); }
+      .footLinks a:hover { color: var(--text); text-decoration: none; }
+      .tiny { font-size: 12px; color: var(--muted2); line-height: 1.45; margin-top: 12px; }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div class="nav">
+          <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+              <div class="brandName">{site.name}</div>
+              <div style="font-size:12px;color:var(--muted2);margin-top:2px;">
+                Private network • Structured agreements
+              </div>
+            </div>
+          </div>
+
+          <nav class="navlinks" aria-label="Primary">
+            <a href="#how">How it works</a>
+            <a href="#trust">Trust</a>
+            <a href="/contact">Contact</a>
+            <a class="btn btnPrimary" href="/create-profile">Join</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="heroGrid">
+            <div>
+              <span class="pill"><span class="dot"></span> Private introductions for real deals</span>
+              <h1>{site.tagline}</h1>
+              <p class="lead">
+                AmicBridge connects verified members and helps structure private lending and partnerships with clear terms and a standard agreement flow.
+                <strong>We are not a bank</strong>, we do not custody funds, and we do not guarantee repayment.
+              </p>
+
+              <div class="actions">
+                <a class="btn btnPrimary" href="/create-profile">Create profile</a>
+                <a class="btn" href="/deal/contract">Sign agreement</a>
+                <a class="btn" href="/legal/private-loan-agreement">View contract template</a>
+              </div>
+
+              <div class="tiny">
+                Reminder: private lending carries risk. Always perform due diligence and consider legal advice in your jurisdiction.
+              </div>
+            </div>
+
+            <aside class="card">
+              <p class="cardTitle">What AmicBridge does</p>
+              <p class="cardText">
+                We provide a structured workflow for introductions and documentation — so both sides can move from “discussion” to “signed agreement” with less ambiguity.
+              </p>
+              <div style="height:12px;"></div>
+              <p class="cardTitle">What AmicBridge does not do</p>
+              <p class="cardText">
+                We do not hold money, approve loans, guarantee outcomes, or act as a lender/borrower/broker. Agreements are directly between members.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="trust" class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="h2">Built for clarity, not hype</h2>
+            <div class="hint">Trust comes from structure and traceability.</div>
+          </div>
+
+          <div class="grid3">
+            <div class="card">
+              <p class="cardTitle">Verified membership</p>
+              <p class="cardText">Profiles are structured for due diligence and clearer counterparty evaluation (identity and documentation vary by process).</p>
+            </div>
+            <div class="card">
+              <p class="cardTitle">Standard agreement flow</p>
+              <p class="cardText">Use a consistent contract template and signing step to reduce misunderstandings before money moves.</p>
+            </div>
+            <div class="card">
+              <p class="cardTitle">Platform independence</p>
+              <p class="cardText">Funds move directly between parties. AmicBridge does not custody assets or intermediate payments.</p>
+            </div>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div class="notice">
+            <strong>Important</strong>
+            <p>
+              AmicBridge is an introductions and documentation platform. All lending decisions, contract terms, and enforcement are the sole responsibility of the parties.
+              Do not participate unless you understand the risks and local legal requirements.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="h2">How it works</h2>
+            <div class="hint">Simple process. Serious documentation.</div>
+          </div>
+
+          <div class="howGrid">
+            <div class="step">
+              <div class="badge">1</div>
+              <div>
+                <h3>Create a profile</h3>
+                <p>Provide the details needed for matching and due diligence (role, intent, region, terms range).</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="badge">2</div>
+              <div>
+                <h3>Match privately</h3>
+                <p>Connect borrower and lender (or business partners) based on needs and terms — without broadcasting public listings.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="badge">3</div>
+              <div>
+                <h3>Sign the agreement</h3>
+                <p>Use the standard loan agreement flow to document terms and generate a signed record for both parties.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="badge">4</div>
+              <div>
+                <h3>Execute directly</h3>
+                <p>Payments and repayments are performed directly between the parties. Keep records. Keep receipts.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:14px;"></div>
+          <div class="actions">
+            <a class="btn btnPrimary" href="/create-profile">Start</a>
+            <a class="btn" href="/deal/contract">Open signing</a>
+            <a class="btn" href="/contact">Talk to us</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footGrid">
+          <div>
+            <div class="footTitle">{site.name}</div>
+            <div style="color:var(--muted);line-height:1.55;">
+              A private peer-to-peer network for introductions and structured agreements.
+            </div>
+            <div class="tiny">
+              Disclaimer: AmicBridge is not a bank, lender, borrower, broker, or guarantor. We do not custody funds and do not guarantee repayment.
+              This website content is informational and not legal or financial advice.
+            </div>
+          </div>
+
+          <div>
+            <div class="footTitle">Legal</div>
+            <div class="footLinks">
+              <a href="/legal/private-loan-agreement">Private Loan Agreement Template</a>
+              <a href="/deal/contract">Signing Page</a>
+            </div>
+          </div>
+
+          <div>
+            <div class="footTitle">Support</div>
+            <div class="footLinks">
+              <a href="/contact">Contact</a>
+              <a href="/revalidation">Revalidation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tiny" style="margin-top:14px;">
+          © {new Date().getFullYear()} {site.name}. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
