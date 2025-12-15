@@ -1,408 +1,670 @@
 ---
 const site = {
   name: "AmicBridge",
-  tagline: "A private bridge between borrowers, lenders, and business partners.",
-  desc:
-    "AmicBridge is a private peer-to-peer network for introductions and structured agreements. We are not a bank, do not custody funds, and do not guarantee repayment.",
+  tagline: "Bridge assets across chains. Fast. Secure. Non-custodial.",
+  ctaPrimary: { label: "Launch App", href: "/app" },
+  ctaSecondary: { label: "Read Docs", href: "/docs" },
 };
+
+const stats = [
+  { label: "Total Volume", value: "$1.2B+" },
+  { label: "Chains Supported", value: "12" },
+  { label: "Avg. Bridge Time", value: "45s" },
+  { label: "Uptime", value: "99.98%" },
+];
+
+const features = [
+  {
+    title: "Non-custodial by design",
+    body: "You keep control. Smart contracts route transfers without holding your funds.",
+  },
+  {
+    title: "Best route discovery",
+    body: "Find the cheapest, fastest path across liquidity sources and bridges.",
+  },
+  {
+    title: "Security-first architecture",
+    body: "Defense in depth: monitoring, rate limits, and audited core contracts.",
+  },
+  {
+    title: "One-click UX",
+    body: "Simple inputs, clear fees, and an execution timeline that actually makes sense.",
+  },
+  {
+    title: "MEV-aware execution",
+    body: "Minimize harmful slippage with protected transaction patterns where available.",
+  },
+  {
+    title: "Open integrations",
+    body: "SDK + APIs so wallets, dApps, and aggregators can plug in easily.",
+  },
+];
+
+const steps = [
+  { n: "01", title: "Connect wallet", body: "Use your favorite wallet. No account needed." },
+  { n: "02", title: "Pick route", body: "We show speed, fees, and final amount—up front." },
+  { n: "03", title: "Bridge & track", body: "Watch confirmations and ETA like a flight tracker." },
+];
+
+const roadmap = [
+  { q: "Q1", title: "Mainnet v1", body: "Core routes + tracking dashboard + fee transparency." },
+  { q: "Q2", title: "More chains", body: "Add L2s + modular route plugins + SDK stable." },
+  { q: "Q3", title: "Intent engine", body: "Gasless / partial fills / smarter execution policies." },
+  { q: "Q4", title: "Governance", body: "Protocol parameters + safety committee + community proposals." },
+];
 ---
 
-<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{site.name} — {site.tagline}</title>
-    <meta name="description" content={site.desc} />
-
-    <style>
-      :root {
-        --bg: #0b1220;
-        --bg2: #0f1b33;
-        --surface: rgba(255, 255, 255, 0.06);
-        --surface2: rgba(255, 255, 255, 0.08);
-        --border: rgba(255, 255, 255, 0.12);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.68);
-        --muted2: rgba(255, 255, 255, 0.55);
-        --primary: #4f8cff;
-        --primaryHover: #2f76ff;
-        --good: #52d29a;
-        --warn: #ffd66b;
-        --radius: 16px;
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        --max: 1120px;
-      }
-
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-        color: var(--text);
-        background:
-          radial-gradient(900px 500px at 15% 10%, rgba(79, 140, 255, 0.22), transparent 60%),
-          radial-gradient(700px 450px at 85% 15%, rgba(82, 210, 154, 0.14), transparent 60%),
-          linear-gradient(180deg, var(--bg), var(--bg2));
-      }
-
-      a { color: inherit; text-decoration: none; }
-      a:hover { text-decoration: underline; }
-
-      .container { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
-      .btn {
-        display: inline-flex; align-items: center; justify-content: center;
-        gap: 10px;
-        padding: 12px 16px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--text);
-        font-weight: 650;
-        cursor: pointer;
-        transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease;
-        box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-      }
-      .btn:hover { background: rgba(255, 255, 255, 0.07); transform: translateY(-1px); text-decoration: none; }
-      .btnPrimary {
-        background: linear-gradient(180deg, rgba(79, 140, 255, 0.95), rgba(47, 118, 255, 0.95));
-        border-color: rgba(79, 140, 255, 0.55);
-        color: #fff;
-      }
-      .btnPrimary:hover { background: linear-gradient(180deg, rgba(79, 140, 255, 1), rgba(47, 118, 255, 1)); }
-
-      .pill {
-        display:inline-flex; align-items:center; gap:8px;
-        font-size: 12px; color: var(--muted);
-        padding: 7px 10px;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        background: rgba(255,255,255,0.04);
-      }
-      .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--good); box-shadow: 0 0 0 4px rgba(82, 210, 154, 0.16); }
-
-      header {
-        position: sticky; top: 0; z-index: 50;
-        backdrop-filter: blur(10px);
-        background: rgba(11, 18, 32, 0.55);
-        border-bottom: 1px solid var(--border);
-      }
-      .nav {
-        display:flex; align-items:center; justify-content: space-between;
-        padding: 12px 0;
-      }
-      .brand { display:flex; align-items:center; gap:12px; }
-      .logo {
-        width: 36px; height: 36px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, rgba(79, 140, 255, 1), rgba(82, 210, 154, 0.9));
-        box-shadow: var(--shadow);
-      }
-      .brandName { font-weight: 800; letter-spacing: 0.2px; }
-      .navlinks { display:flex; gap: 14px; align-items:center; }
-      .navlinks a {
-        color: var(--muted);
-        font-weight: 650;
-        font-size: 14px;
-        padding: 8px 10px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-      }
-      .navlinks a:hover { color: var(--text); border-color: var(--border); text-decoration: none; }
-
-      .hero { padding: 52px 0 18px; }
-      .heroGrid {
-        display:grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
-        align-items: start;
-      }
-      @media (min-width: 980px) {
-        .heroGrid { grid-template-columns: 1.25fr 0.75fr; }
-      }
-
-      h1 {
-        margin: 10px 0 12px;
-        font-size: clamp(28px, 3.4vw, 44px);
-        line-height: 1.08;
-        letter-spacing: -0.6px;
-      }
-      .lead {
-        margin: 0 0 18px;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.6;
-        max-width: 62ch;
-      }
-      .actions { display:flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-
-      .card {
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: var(--radius);
-        padding: 16px;
-        box-shadow: var(--shadow);
-      }
-      .cardTitle { font-weight: 800; margin: 0 0 6px; }
-      .cardText { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
-
-      .section { padding: 26px 0; }
-      .sectionHead { display:flex; justify-content: space-between; gap: 14px; align-items: baseline; margin-bottom: 12px; }
-      .h2 { margin: 0; font-size: 18px; font-weight: 850; letter-spacing: -0.2px; }
-      .hint { color: var(--muted2); font-size: 13px; line-height: 1.4; }
-
-      .grid3 {
-        display:grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      @media (min-width: 880px) {
-        .grid3 { grid-template-columns: repeat(3, 1fr); }
-      }
-
-      .howGrid {
-        display:grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      @media (min-width: 980px) {
-        .howGrid { grid-template-columns: 1fr 1fr; }
-      }
-
-      .step {
-        display:flex; gap: 12px;
-        padding: 14px;
-        border: 1px solid var(--border);
-        background: rgba(255,255,255,0.04);
-        border-radius: var(--radius);
-      }
-      .badge {
-        width: 34px; height: 34px;
-        border-radius: 12px;
-        display:flex; align-items:center; justify-content:center;
-        background: rgba(79,140,255,0.18);
-        border: 1px solid rgba(79,140,255,0.30);
-        font-weight: 900;
-        color: rgba(255,255,255,0.92);
-      }
-      .step h3 { margin: 0 0 4px; font-size: 14px; font-weight: 900; }
-      .step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-
-      .notice {
-        border: 1px solid rgba(255, 214, 107, 0.28);
-        background: rgba(255, 214, 107, 0.08);
-        border-radius: var(--radius);
-        padding: 14px;
-        color: rgba(255,255,255,0.86);
-      }
-      .notice strong { color: rgba(255,255,255,0.95); }
-      .notice p { margin: 6px 0 0; color: rgba(255,255,255,0.72); line-height: 1.55; font-size: 13px; }
-
-      footer {
-        margin-top: 24px;
-        border-top: 1px solid var(--border);
-        padding: 22px 0 34px;
-        color: var(--muted);
-      }
-      .footGrid {
-        display:grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      @media (min-width: 900px) {
-        .footGrid { grid-template-columns: 1.3fr 0.7fr 1fr; }
-      }
-      .footTitle { font-weight: 900; color: rgba(255,255,255,0.86); margin: 0 0 8px; }
-      .footLinks { display:flex; flex-direction: column; gap: 8px; }
-      .footLinks a { color: var(--muted); }
-      .footLinks a:hover { color: var(--text); text-decoration: none; }
-      .tiny { font-size: 12px; color: var(--muted2); line-height: 1.45; margin-top: 12px; }
-    </style>
+    <meta name="description" content={`${site.name}: ${site.tagline}`} />
   </head>
 
   <body>
-    <header>
-      <div class="container">
-        <div class="nav">
-          <div class="brand">
-            <div class="logo" aria-hidden="true"></div>
-            <div>
-              <div class="brandName">{site.name}</div>
-              <div style="font-size:12px;color:var(--muted2);margin-top:2px;">
-                Private network • Structured agreements
-              </div>
-            </div>
-          </div>
+    <div class="bg">
+      <header class="nav">
+        <a class="brand" href="/">
+          <span class="logo" aria-hidden="true"></span>
+          <span>{site.name}</span>
+        </a>
 
-          <nav class="navlinks" aria-label="Primary">
-            <a href="#how">How it works</a>
-            <a href="#trust">Trust</a>
-            <a href="/contact">Contact</a>
-            <a class="btn btnPrimary" href="/create-profile">Join</a>
-          </nav>
+        <nav class="links" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#security">Security</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="/docs">Docs</a>
+        </nav>
+
+        <div class="nav-cta">
+          <a class="btn ghost" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
+          <a class="btn primary" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <main>
-      <section class="hero">
-        <div class="container">
-          <div class="heroGrid">
-            <div>
-              <span class="pill"><span class="dot"></span> Private introductions for real deals</span>
-              <h1>{site.tagline}</h1>
-              <p class="lead">
-                AmicBridge connects verified members and helps structure private lending and partnerships with clear terms and a standard agreement flow.
-                <strong>We are not a bank</strong>, we do not custody funds, and we do not guarantee repayment.
-              </p>
-
-              <div class="actions">
-                <a class="btn btnPrimary" href="/create-profile">Create profile</a>
-                <a class="btn" href="/deal/contract">Sign agreement</a>
-                <a class="btn" href="/legal/private-loan-agreement">View contract template</a>
-              </div>
-
-              <div class="tiny">
-                Reminder: private lending carries risk. Always perform due diligence and consider legal advice in your jurisdiction.
-              </div>
-            </div>
-
-            <aside class="card">
-              <p class="cardTitle">What AmicBridge does</p>
-              <p class="cardText">
-                We provide a structured workflow for introductions and documentation — so both sides can move from “discussion” to “signed agreement” with less ambiguity.
-              </p>
-              <div style="height:12px;"></div>
-              <p class="cardTitle">What AmicBridge does not do</p>
-              <p class="cardText">
-                We do not hold money, approve loans, guarantee outcomes, or act as a lender/borrower/broker. Agreements are directly between members.
-              </p>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section id="trust" class="section">
-        <div class="container">
-          <div class="sectionHead">
-            <h2 class="h2">Built for clarity, not hype</h2>
-            <div class="hint">Trust comes from structure and traceability.</div>
-          </div>
-
-          <div class="grid3">
-            <div class="card">
-              <p class="cardTitle">Verified membership</p>
-              <p class="cardText">Profiles are structured for due diligence and clearer counterparty evaluation (identity and documentation vary by process).</p>
-            </div>
-            <div class="card">
-              <p class="cardTitle">Standard agreement flow</p>
-              <p class="cardText">Use a consistent contract template and signing step to reduce misunderstandings before money moves.</p>
-            </div>
-            <div class="card">
-              <p class="cardTitle">Platform independence</p>
-              <p class="cardText">Funds move directly between parties. AmicBridge does not custody assets or intermediate payments.</p>
-            </div>
-          </div>
-
-          <div style="height:12px;"></div>
-
-          <div class="notice">
-            <strong>Important</strong>
-            <p>
-              AmicBridge is an introductions and documentation platform. All lending decisions, contract terms, and enforcement are the sole responsibility of the parties.
-              Do not participate unless you understand the risks and local legal requirements.
+      <main>
+        <!-- HERO -->
+        <section class="hero">
+          <div class="hero-left">
+            <p class="pill">Non-custodial • Multi-chain • Transparent fees</p>
+            <h1>
+              Bridge crypto like a protocol,
+              <span class="grad">not a sketchy website</span>.
+            </h1>
+            <p class="sub">
+              {site.tagline} Built for speed, clarity, and calm vibes in a chaotic multichain universe.
             </p>
-          </div>
-        </div>
-      </section>
 
-      <section id="how" class="section">
-        <div class="container">
-          <div class="sectionHead">
-            <h2 class="h2">How it works</h2>
-            <div class="hint">Simple process. Serious documentation.</div>
+            <div class="hero-actions">
+              <a class="btn primary big" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
+              <a class="btn ghost big" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
+            </div>
+
+            <div class="hero-note">
+              <span class="dot"></span>
+              <span>Audits, monitoring, and fail-safes before vibes.</span>
+            </div>
           </div>
 
-          <div class="howGrid">
-            <div class="step">
-              <div class="badge">1</div>
-              <div>
-                <h3>Create a profile</h3>
-                <p>Provide the details needed for matching and due diligence (role, intent, region, terms range).</p>
+          <div class="hero-right">
+            <div class="panel">
+              <div class="panel-top">
+                <div>
+                  <div class="kicker">Quick Bridge</div>
+                  <div class="title">ETH → Arbitrum</div>
+                </div>
+                <span class="badge">Live UI mock</span>
+              </div>
+
+              <div class="form">
+                <label>
+                  <span>Amount</span>
+                  <div class="input">
+                    <input placeholder="0.50" inputmode="decimal" />
+                    <span class="unit">ETH</span>
+                  </div>
+                </label>
+
+                <div class="row">
+                  <label>
+                    <span>From</span>
+                    <div class="select">Ethereum</div>
+                  </label>
+                  <label>
+                    <span>To</span>
+                    <div class="select">Arbitrum</div>
+                  </label>
+                </div>
+
+                <div class="quote">
+                  <div class="qrow">
+                    <span>Estimated received</span><strong>0.495 ETH</strong>
+                  </div>
+                  <div class="qrow">
+                    <span>Fees</span><strong>$3.12</strong>
+                  </div>
+                  <div class="qrow">
+                    <span>ETA</span><strong>~45s</strong>
+                  </div>
+                </div>
+
+                <button class="btn primary full" type="button">Connect Wallet</button>
+                <p class="tiny">This is a landing-page mock. Wire it to your real app later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="stats" aria-label="Key stats">
+          {stats.map((s) => (
+            <div class="stat">
+              <div class="stat-v">{s.value}</div>
+              <div class="stat-l">{s.label}</div>
+            </div>
+          ))}
+        </section>
+
+        <!-- FEATURES -->
+        <section id="features" class="section">
+          <div class="section-head">
+            <h2>Everything you’d expect from a serious bridge</h2>
+            <p>Clear fees, route choice, safety posture, and a UI that doesn’t scream “exit liquidity.”</p>
+          </div>
+
+          <div class="grid">
+            {features.map((f) => (
+              <article class="card">
+                <h3>{f.title}</h3>
+                <p>{f.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section">
+          <div class="section-head">
+            <h2>Three steps. No summoning rituals.</h2>
+            <p>Designed to be boring in the best way: predictable, inspectable, and fast.</p>
+          </div>
+
+          <div class="steps">
+            {steps.map((s) => (
+              <div class="step">
+                <div class="num">{s.n}</div>
+                <div>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- SECURITY -->
+        <section id="security" class="section security">
+          <div class="security-card">
+            <div class="security-left">
+              <h2>Security is a feature, not a PDF.</h2>
+              <p>
+                Your bridge is only as trustworthy as its assumptions. We reduce assumptions and
+                make the remaining ones visible.
+              </p>
+
+              <ul class="bullets">
+                <li>Audited core contracts (publish reports + diffs)</li>
+                <li>On-chain monitoring + incident playbooks</li>
+                <li>Rate limits & circuit breakers for anomalies</li>
+                <li>Minimal admin surface; time-lock where possible</li>
+              </ul>
+
+              <div class="security-actions">
+                <a class="btn ghost" href="/security">Security page</a>
+                <a class="btn primary" href="/docs">Developer docs</a>
               </div>
             </div>
 
-            <div class="step">
-              <div class="badge">2</div>
-              <div>
-                <h3>Match privately</h3>
-                <p>Connect borrower and lender (or business partners) based on needs and terms — without broadcasting public listings.</p>
-              </div>
-            </div>
-
-            <div class="step">
-              <div class="badge">3</div>
-              <div>
-                <h3>Sign the agreement</h3>
-                <p>Use the standard loan agreement flow to document terms and generate a signed record for both parties.</p>
-              </div>
-            </div>
-
-            <div class="step">
-              <div class="badge">4</div>
-              <div>
-                <h3>Execute directly</h3>
-                <p>Payments and repayments are performed directly between the parties. Keep records. Keep receipts.</p>
+            <div class="security-right">
+              <div class="shield" aria-hidden="true"></div>
+              <div class="mini">
+                <div class="mini-row"><span>Status</span><strong class="ok">Operational</strong></div>
+                <div class="mini-row"><span>Last incident</span><strong>None reported</strong></div>
+                <div class="mini-row"><span>Monitoring</span><strong>Realtime</strong></div>
               </div>
             </div>
           </div>
+        </section>
 
-          <div style="height:14px;"></div>
-          <div class="actions">
-            <a class="btn btnPrimary" href="/create-profile">Start</a>
-            <a class="btn" href="/deal/contract">Open signing</a>
-            <a class="btn" href="/contact">Talk to us</a>
+        <!-- ROADMAP -->
+        <section id="roadmap" class="section">
+          <div class="section-head">
+            <h2>Roadmap</h2>
+            <p>Ship value early, harden continuously, and keep the system legible.</p>
           </div>
+
+          <div class="roadmap">
+            {roadmap.map((r) => (
+              <div class="milestone">
+                <div class="q">{r.q}</div>
+                <div class="m-body">
+                  <h3>{r.title}</h3>
+                  <p>{r.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta">
+          <div class="cta-inner">
+            <h2>Ready to bridge without drama?</h2>
+            <p>Launch the app, or read the docs and integrate AmicBridge into your dApp.</p>
+            <div class="hero-actions">
+              <a class="btn primary big" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
+              <a class="btn ghost big" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="foot-left">
+          <div class="brand small">
+            <span class="logo" aria-hidden="true"></span>
+            <span>{site.name}</span>
+          </div>
+          <p class="tiny">
+            © {new Date().getFullYear()} {site.name}. Non-custodial bridge infrastructure.
+          </p>
         </div>
-      </section>
-    </main>
 
-    <footer>
-      <div class="container">
-        <div class="footGrid">
-          <div>
-            <div class="footTitle">{site.name}</div>
-            <div style="color:var(--muted);line-height:1.55;">
-              A private peer-to-peer network for introductions and structured agreements.
-            </div>
-            <div class="tiny">
-              Disclaimer: AmicBridge is not a bank, lender, borrower, broker, or guarantor. We do not custody funds and do not guarantee repayment.
-              This website content is informational and not legal or financial advice.
-            </div>
-          </div>
-
-          <div>
-            <div class="footTitle">Legal</div>
-            <div class="footLinks">
-              <a href="/legal/private-loan-agreement">Private Loan Agreement Template</a>
-              <a href="/deal/contract">Signing Page</a>
-            </div>
-          </div>
-
-          <div>
-            <div class="footTitle">Support</div>
-            <div class="footLinks">
-              <a href="/contact">Contact</a>
-              <a href="/revalidation">Revalidation</a>
-            </div>
-          </div>
+        <div class="foot-links">
+          <a href="/docs">Docs</a>
+          <a href="/security">Security</a>
+          <a href="/terms">Terms</a>
+          <a href="/privacy">Privacy</a>
         </div>
+      </footer>
+    </div>
 
-        <div class="tiny" style="margin-top:14px;">
-          © {new Date().getFullYear()} {site.name}. All rights reserved.
-        </div>
-      </div>
-    </footer>
+    <style>
+      :global(html, body) { height: 100%; }
+      :global(body) {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: rgba(255,255,255,0.92);
+        background: #070812;
+      }
+      a { color: inherit; text-decoration: none; }
+      * { box-sizing: border-box; }
+
+      .bg{
+        min-height: 100vh;
+        background:
+          radial-gradient(1200px 600px at 15% 10%, rgba(124,58,237,0.35), transparent 55%),
+          radial-gradient(900px 500px at 85% 15%, rgba(34,211,238,0.22), transparent 55%),
+          radial-gradient(900px 500px at 60% 85%, rgba(59,130,246,0.18), transparent 55%),
+          linear-gradient(180deg, #060713 0%, #070812 45%, #060713 100%);
+      }
+
+      .nav{
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 22px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: rgba(7,8,18,0.68);
+        backdrop-filter: blur(10px);
+      }
+      .brand{
+        display:flex; align-items:center; gap:10px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .brand.small{ font-size: 14px; opacity: 0.95; }
+      .logo{
+        width: 14px; height: 14px; border-radius: 6px;
+        background: linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,1));
+        box-shadow: 0 0 24px rgba(124,58,237,0.35);
+      }
+      .links{ display:flex; gap: 16px; opacity: 0.9; }
+      .links a{ padding: 8px 10px; border-radius: 10px; }
+      .links a:hover{ background: rgba(255,255,255,0.06); }
+
+      .nav-cta{ display:flex; gap: 10px; }
+
+      .btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.06);
+        color: rgba(255,255,255,0.92);
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform .08s ease, background .15s ease, border-color .15s ease;
+      }
+      .btn:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+      .btn:active{ transform: translateY(1px); }
+      .btn.primary{
+        border-color: rgba(124,58,237,0.35);
+        background: linear-gradient(135deg, rgba(124,58,237,0.9), rgba(34,211,238,0.75));
+        box-shadow: 0 16px 40px rgba(124,58,237,0.22);
+      }
+      .btn.primary:hover{ filter: brightness(1.04); }
+      .btn.ghost{ background: rgba(255,255,255,0.02); }
+      .btn.big{ padding: 12px 16px; border-radius: 16px; }
+      .btn.full{ width: 100%; padding: 12px 16px; border-radius: 16px; }
+
+      main{ max-width: 1160px; margin: 0 auto; padding: 26px 18px 60px; }
+
+      .hero{
+        display:grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 22px;
+        padding: 28px 0 10px;
+      }
+      .pill{
+        display:inline-flex;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.04);
+        font-size: 13px;
+        opacity: 0.9;
+      }
+      h1{
+        margin: 14px 0 10px;
+        font-size: clamp(34px, 4vw, 54px);
+        line-height: 1.04;
+        letter-spacing: -0.02em;
+      }
+      .grad{
+        background: linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,1));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub{
+        margin: 0 0 18px;
+        max-width: 56ch;
+        color: rgba(255,255,255,0.78);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+      .hero-actions{ display:flex; gap: 12px; flex-wrap: wrap; }
+      .hero-note{
+        margin-top: 14px;
+        display:flex; align-items:center; gap: 10px;
+        color: rgba(255,255,255,0.72);
+        font-size: 13px;
+      }
+      .dot{
+        width: 8px; height: 8px; border-radius: 999px;
+        background: rgba(34,211,238,1);
+        box-shadow: 0 0 18px rgba(34,211,238,0.45);
+      }
+
+      .panel{
+        border-radius: 22px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.04);
+        box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        overflow:hidden;
+      }
+      .panel-top{
+        display:flex; justify-content: space-between; align-items:center;
+        padding: 16px 16px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+      }
+      .kicker{ font-size: 12px; opacity: 0.75; }
+      .title{ font-size: 14px; font-weight: 700; margin-top: 2px; }
+      .badge{
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.05);
+        opacity: 0.9;
+      }
+      .form{ padding: 14px 16px 16px; display:flex; flex-direction: column; gap: 12px; }
+      label span{ display:block; font-size: 12px; opacity: 0.75; margin-bottom: 6px; }
+      .input{
+        display:flex; align-items:center; justify-content: space-between;
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.22);
+      }
+      input{
+        width: 100%;
+        background: transparent;
+        border: 0;
+        outline: none;
+        color: rgba(255,255,255,0.92);
+        font-size: 16px;
+      }
+      .unit{ opacity: 0.75; font-size: 13px; padding-left: 10px; }
+      .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .select{
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.22);
+        font-weight: 600;
+        opacity: 0.92;
+      }
+      .quote{
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+        padding: 12px 12px;
+        display:flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .qrow{ display:flex; justify-content: space-between; color: rgba(255,255,255,0.78); font-size: 13px; }
+      .qrow strong{ color: rgba(255,255,255,0.92); font-weight: 700; }
+      .tiny{ margin: 0; font-size: 12px; opacity: 0.65; }
+
+      .stats{
+        margin: 22px 0 0;
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .stat{
+        padding: 16px 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+      }
+      .stat-v{ font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+      .stat-l{ margin-top: 4px; font-size: 12px; opacity: 0.72; }
+
+      .section{ padding: 52px 0 0; }
+      .section-head h2{
+        margin: 0 0 8px;
+        font-size: clamp(22px, 2.4vw, 32px);
+        letter-spacing: -0.02em;
+      }
+      .section-head p{
+        margin: 0 0 18px;
+        color: rgba(255,255,255,0.75);
+        max-width: 70ch;
+        line-height: 1.6;
+      }
+
+      .grid{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .card{
+        padding: 18px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+      }
+      .card h3{ margin: 0 0 8px; font-size: 15px; }
+      .card p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+
+      .steps{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .step{
+        display:flex; gap: 12px; align-items:flex-start;
+        padding: 18px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+      }
+      .num{
+        width: 44px; height: 44px; border-radius: 16px;
+        display:flex; align-items:center; justify-content:center;
+        font-weight: 900;
+        background: rgba(124,58,237,0.18);
+        border: 1px solid rgba(124,58,237,0.22);
+      }
+      .step h3{ margin: 0 0 6px; font-size: 15px; }
+      .step p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+
+      .security-card{
+        display:grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 14px;
+        padding: 22px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background:
+          radial-gradient(800px 300px at 20% 10%, rgba(124,58,237,0.20), transparent 55%),
+          radial-gradient(600px 280px at 90% 35%, rgba(34,211,238,0.14), transparent 55%),
+          rgba(255,255,255,0.03);
+      }
+      .bullets{
+        margin: 14px 0 16px;
+        padding-left: 18px;
+        color: rgba(255,255,255,0.78);
+        line-height: 1.7;
+        font-size: 14px;
+      }
+      .security-actions{ display:flex; gap: 10px; flex-wrap: wrap; }
+      .security-right{
+        display:flex; flex-direction: column; gap: 10px;
+        align-items: stretch; justify-content: center;
+      }
+      .shield{
+        height: 140px;
+        border-radius: 22px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background:
+          radial-gradient(120px 120px at 30% 35%, rgba(34,211,238,0.35), transparent 55%),
+          radial-gradient(180px 180px at 70% 55%, rgba(124,58,237,0.35), transparent 60%),
+          rgba(0,0,0,0.18);
+        box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      }
+      .mini{
+        padding: 14px 14px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(0,0,0,0.16);
+      }
+      .mini-row{
+        display:flex; justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        color: rgba(255,255,255,0.78);
+        font-size: 13px;
+      }
+      .mini-row:last-child{ border-bottom: 0; }
+      .ok{ color: rgba(34,211,238,0.95); }
+
+      .roadmap{
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .milestone{
+        display:flex; gap: 12px; align-items:flex-start;
+        padding: 18px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+      }
+      .q{
+        width: 44px; height: 44px; border-radius: 16px;
+        display:flex; align-items:center; justify-content:center;
+        font-weight: 900;
+        background: rgba(34,211,238,0.14);
+        border: 1px solid rgba(34,211,238,0.18);
+      }
+      .m-body h3{ margin: 0 0 6px; font-size: 15px; }
+      .m-body p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+
+      .cta{
+        padding: 52px 0 0;
+      }
+      .cta-inner{
+        padding: 26px 22px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background:
+          radial-gradient(900px 350px at 50% 0%, rgba(124,58,237,0.22), transparent 60%),
+          rgba(255,255,255,0.03);
+        text-align: center;
+      }
+      .cta-inner h2{
+        margin: 0 0 8px;
+        font-size: clamp(22px, 2.4vw, 32px);
+      }
+      .cta-inner p{
+        margin: 0 auto 16px;
+        max-width: 70ch;
+        color: rgba(255,255,255,0.75);
+        line-height: 1.6;
+      }
+      .cta-inner .hero-actions{ justify-content: center; }
+
+      .footer{
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 22px 18px 34px;
+        display:flex;
+        align-items:flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .foot-links{ display:flex; gap: 14px; opacity: 0.85; flex-wrap: wrap; }
+      .foot-links a:hover{ text-decoration: underline; }
+
+      /* Responsive */
+      @media (max-width: 980px){
+        .hero{ grid-template-columns: 1fr; }
+        .stats{ grid-template-columns: repeat(2, 1fr); }
+        .grid{ grid-template-columns: repeat(2, 1fr); }
+        .steps{ grid-template-columns: 1fr; }
+        .security-card{ grid-template-columns: 1fr; }
+        .roadmap{ grid-template-columns: 1fr; }
+        .links{ display:none; }
+      }
+      @media (max-width: 560px){
+        .grid{ grid-template-columns: 1fr; }
+        .nav-cta{ display:none; }
+      }
+    </style>
   </body>
 </html>
 
