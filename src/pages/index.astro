@@ -1,19 +1,250 @@
-
 ---
-import Shop from "../components/Shop.jsx";
-import "../styles/styles.css";
+const base = import.meta.env.BASE_URL;
+
+const products = [
+  {
+    id: "set-black",
+    name: "Black Satin-Look Cami & Shorts Set",
+    price: 400,
+    image: "/images/set-black.png",
+    colors: ["Black"],
+    sizes: ["S", "M", "L"],
+    defaultColor: "Black",
+  },
+  {
+    id: "set-white",
+    name: "White Satin-Look Cami & Shorts Set",
+    price: 400,
+    image: "/images/set-white.png",
+    colors: ["White"],
+    sizes: ["S", "M", "L"],
+    defaultColor: "White",
+  },
+  {
+    id: "nude-slip",
+    name: "Nude Satin-Look Slip Dress",
+    price: 400,
+    image: "/images/nude-slipp-dress.png",
+    colors: ["Nude"],
+    sizes: ["S", "M", "L"],
+    defaultColor: "Nude",
+  },
+  {
+    id: "white-slip",
+    name: "White Satin-Look Slip Dress",
+    price: 499,
+    image: "/images/white-slip-dress.png",
+    colors: ["White"],
+    sizes: ["S", "M", "L"],
+    defaultColor: "White",
+  },
+  {
+    id: "black-chemise",
+    name: "Black Satin-Look Chemise Dress",
+    price: 499,
+    image: "/images/black-chemise.png",
+    colors: ["Black"],
+    sizes: ["S", "M", "L"],
+    defaultColor: "Black",
+  },
+  {
+    id: "white-soft-bra",
+    name: "White Soft Comfort Bra",
+    price: 350,
+    image: "/images/white-soft-bra.png",
+    colors: ["White"],
+    sizes: ["75B", "80B", "85B", "90B", "95B"],
+    defaultColor: "White",
+  },
+  {
+    id: "black-soft-bra",
+    name: "Black Soft Comfort Bra",
+    price: 350,
+    image: "/images/black-soft-bra.png",
+    colors: ["Black"],
+    sizes: ["75B", "80B", "85B", "90B", "95B"],
+    defaultColor: "Black",
+  },
+  {
+    id: "grey-soft-bra",
+    name: "Grey Soft Comfort Bra",
+    price: 350,
+    image: "/images/grey-soft.png",
+    colors: ["Grey"],
+    sizes: ["75B", "80B", "85B", "90B", "95B"],
+    defaultColor: "Grey",
+  },
+];
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Amicbridge</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amicbridge</title>
 
-  <body>
-    <Shop client:load />
-  </body>
+  <style>
+    :root{
+      --bg:#f7f6f4;
+      --text:#151515;
+      --muted:#6b6b6b;
+      --border:#dedede;
+      --card:#ffffff;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:26px 44px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:18px;
+    }
+    nav{
+      display:flex;
+      gap:26px;
+      align-items:center;
+    }
+    nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-size:16px;
+      font-weight:500;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:22px;
+      height:22px;
+      padding:0 6px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      font-size:12px;
+      background:#fff;
+      margin-left:8px;
+    }
+    main{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 44px 80px;
+    }
+    .hero{
+      margin-top:110px;
+      max-width:820px;
+    }
+    .hero h1{
+      margin:0 0 18px;
+      font-size:72px;
+      line-height:1.05;
+      letter-spacing:-0.02em;
+    }
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:20px;
+      line-height:1.6;
+      max-width:560px;
+    }
+    .sectionTitle{
+      margin-top:90px;
+      font-size:22px;
+      font-weight:700;
+    }
+    .products{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap:24px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:16px;
+    }
+    .card img{
+      width:100%;
+      height:420px;
+      object-fit:cover;
+      background:#eee;
+      border:1px solid var(--border);
+    }
+    .name{ margin:12px 0 4px; font-size:18px; font-weight:700; }
+    .price{ font-weight:800; }
+    .label{
+      margin:12px 0 8px;
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .opt{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:12px;
+      cursor:pointer;
+    }
+    .opt.active{ border-color:var(--text); }
+    .qty{
+      display:grid;
+      grid-template-columns:56px 70px 56px;
+      border:1px solid var(--border);
+      width:max-content;
+    }
+    .qty button{ border:0; background:#fff; font-size:18px; }
+    .qty div{ display:flex; align-items:center; justify-content:center; }
+    .actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+    .btn{ padding:12px; border:1px solid var(--text); background:#fff; cursor:pointer; font-weight:700; }
+    .btn.primary{ background:var(--text); color:#fff; }
+    .msg{ font-size:12px; min-height:16px; }
+    @media(max-width:900px){
+      .hero h1{ font-size:48px; }
+      main{ padding:0 18px 60px; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="brand">AMICBRIDGE</div>
+  <nav>
+    <a href="#shop">Shop</a>
+    <a href="https://wa.me/4792928373" target="_blank">Contact</a>
+    <a href={`${base}checkout/`}>Checkout <span class="badge" id="cartCount">0</span></a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Comfort that disappears.<br />Confidence that stays.</h1>
+    <p>
+      Thoughtfully designed underwear for women who value softness,
+      support, and quiet confidence — every single day.
+    </p>
+  </section>
+
+  <h2 id="shop" class="sectionTitle">Shop</h2>
+
+  <section class="products">
+    {products.map((p) => (
+      <article class="card" data-product data-id={p.id} data-name={p.name} data-price={p.price}>
+        <img src={p.image} alt={p.name} />
+        <div class="name">{p.name}</div>
+        <div class="price">{p.price} NOK</div>
+      </article>
+    ))}
+  </section>
+</main>
+</body>
 </html>
-
