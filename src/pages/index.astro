@@ -1,56 +1,78 @@
 ---
-const site = {
+const brand = {
   name: "AmicBridge",
-  tagline: "Bridge assets across chains. Fast. Secure. Non-custodial.",
-  ctaPrimary: { label: "Launch App", href: "/app" },
-  ctaSecondary: { label: "Read Docs", href: "/docs" },
+  description: "Bridge assets across chains with transparent fees, fast finality, and non-custodial design.",
+  url: "https://amicbridge.com",
+  ogImage: "/og.png", // put an image in /public/og.png if you want
+  primaryCta: { label: "Launch App", href: "/app" },
+  secondaryCta: { label: "Read Docs", href: "/docs" },
 };
 
 const stats = [
   { label: "Total Volume", value: "$1.2B+" },
-  { label: "Chains Supported", value: "12" },
-  { label: "Avg. Bridge Time", value: "45s" },
-  { label: "Uptime", value: "99.98%" },
+  { label: "Routes", value: "40+" },
+  { label: "Chains", value: "12" },
+  { label: "Avg. Time", value: "~45s" },
 ];
 
-const features = [
+const featureCards = [
   {
-    title: "Non-custodial by design",
-    body: "You keep control. Smart contracts route transfers without holding your funds.",
+    title: "Non-custodial",
+    body: "You keep control. Contracts route the bridge—no accounts, no deposits, no custody.",
   },
   {
-    title: "Best route discovery",
-    body: "Find the cheapest, fastest path across liquidity sources and bridges.",
+    title: "Transparent fees",
+    body: "See bridge fees, gas, and expected received before you click. No surprise math.",
   },
   {
-    title: "Security-first architecture",
-    body: "Defense in depth: monitoring, rate limits, and audited core contracts.",
+    title: "Route intelligence",
+    body: "We pick the best route across liquidity sources with speed/price tradeoffs you can inspect.",
   },
   {
-    title: "One-click UX",
-    body: "Simple inputs, clear fees, and an execution timeline that actually makes sense.",
+    title: "Tracking that’s useful",
+    body: "A timeline that shows confirmations, destination tx, and ETA—like a package tracker.",
   },
   {
-    title: "MEV-aware execution",
-    body: "Minimize harmful slippage with protected transaction patterns where available.",
+    title: "MEV-aware patterns",
+    body: "Where supported, execution is designed to reduce harmful slippage and weird sandwich vibes.",
   },
   {
-    title: "Open integrations",
-    body: "SDK + APIs so wallets, dApps, and aggregators can plug in easily.",
+    title: "SDK + API",
+    body: "Integrate bridging into your dApp or wallet with a clean SDK and stable API surface.",
   },
 ];
 
-const steps = [
-  { n: "01", title: "Connect wallet", body: "Use your favorite wallet. No account needed." },
-  { n: "02", title: "Pick route", body: "We show speed, fees, and final amount—up front." },
-  { n: "03", title: "Bridge & track", body: "Watch confirmations and ETA like a flight tracker." },
+const integrations = [
+  { name: "WalletConnect", note: "Connect most wallets" },
+  { name: "EVM Chains", note: "L1 + L2 support" },
+  { name: "Monitoring", note: "Alerts & anomaly detection" },
+  { name: "Rate Limits", note: "Circuit breakers" },
 ];
 
-const roadmap = [
-  { q: "Q1", title: "Mainnet v1", body: "Core routes + tracking dashboard + fee transparency." },
-  { q: "Q2", title: "More chains", body: "Add L2s + modular route plugins + SDK stable." },
-  { q: "Q3", title: "Intent engine", body: "Gasless / partial fills / smarter execution policies." },
-  { q: "Q4", title: "Governance", body: "Protocol parameters + safety committee + community proposals." },
+const faq = [
+  {
+    q: "Is AmicBridge non-custodial?",
+    a: "That’s the goal: users keep control, and contracts execute routing. In production you’ll want audits, monitoring, and minimal admin controls.",
+  },
+  {
+    q: "How do fees work?",
+    a: "Fees are broken down into bridge fee + destination gas (when applicable). The UI should always show expected received before execution.",
+  },
+  {
+    q: "What chains do you support?",
+    a: "Add your real list here. The landing page should reflect reality—crypto users can smell fiction.",
+  },
+  {
+    q: "Do you have audits?",
+    a: "If yes: link them. If not yet: say “audits in progress” and be specific. Ambiguity is the enemy of trust.",
+  },
+];
+
+const navLinks = [
+  { label: "Features", href: "#features" },
+  { label: "Integrations", href: "#integrations" },
+  { label: "Security", href: "#security" },
+  { label: "FAQ", href: "#faq" },
 ];
 ---
 
@@ -58,123 +80,178 @@ const roadmap = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{site.name} — {site.tagline}</title>
-    <meta name="description" content={`${site.name}: ${site.tagline}`} />
+    <title>{brand.name} — {brand.description}</title>
+    <meta name="description" content={brand.description} />
+    <meta name="theme-color" content="#070812" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={brand.name} />
+    <meta property="og:description" content={brand.description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={brand.url} />
+    <meta property="og:image" content={brand.ogImage} />
+
+    <!-- Preload-ish nicety (optional) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
   </head>
 
   <body>
+    <a class="skip" href="#content">Skip to content</a>
+
     <div class="bg">
+      <!-- NAV -->
       <header class="nav">
-        <a class="brand" href="/">
+        <a class="brand" href="/" aria-label={`${brand.name} home`}>
           <span class="logo" aria-hidden="true"></span>
-          <span>{site.name}</span>
+          <span class="brandtext">{brand.name}</span>
         </a>
 
-        <nav class="links" aria-label="Primary">
-          <a href="#features">Features</a>
-          <a href="#security">Security</a>
-          <a href="#roadmap">Roadmap</a>
-          <a href="/docs">Docs</a>
+        <nav class="links" aria-label="Primary navigation">
+          {navLinks.map((l) => (
+            <a href={l.href}>{l.label}</a>
+          ))}
         </nav>
 
-        <div class="nav-cta">
-          <a class="btn ghost" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
-          <a class="btn primary" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
+        <div class="navcta">
+          <a class="btn ghost" href={brand.secondaryCta.href}>{brand.secondaryCta.label}</a>
+          <a class="btn primary" href={brand.primaryCta.href}>{brand.primaryCta.label}</a>
+
+          <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+            <span class="hamburger" aria-hidden="true"></span>
+          </button>
         </div>
       </header>
 
-      <main>
+      <!-- MOBILE MENU -->
+      <div class="mobile" id="mobileMenu" hidden>
+        <div class="mobile-inner">
+          <div class="mobile-top">
+            <div class="brand small">
+              <span class="logo" aria-hidden="true"></span>
+              <span class="brandtext">{brand.name}</span>
+            </div>
+            <button class="iconbtn" id="closeBtn" aria-label="Close menu">
+              ✕
+            </button>
+          </div>
+
+          <nav class="mobile-links" aria-label="Mobile navigation">
+            {navLinks.map((l) => (
+              <a href={l.href} class="mobile-link">{l.label}</a>
+            ))}
+            <a href={brand.secondaryCta.href} class="mobile-link">Docs</a>
+            <a href={brand.primaryCta.href} class="btn primary full">{brand.primaryCta.label}</a>
+          </nav>
+        </div>
+      </div>
+
+      <main id="content" class="wrap">
         <!-- HERO -->
         <section class="hero">
-          <div class="hero-left">
-            <p class="pill">Non-custodial • Multi-chain • Transparent fees</p>
-            <h1>
-              Bridge crypto like a protocol,
-              <span class="grad">not a sketchy website</span>.
-            </h1>
-            <p class="sub">
-              {site.tagline} Built for speed, clarity, and calm vibes in a chaotic multichain universe.
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn primary big" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
-              <a class="btn ghost big" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
+          <div class="heroleft">
+            <div class="pill">
+              <span class="pulse" aria-hidden="true"></span>
+              Transparent fees • Non-custodial design • Fast finality
             </div>
 
-            <div class="hero-note">
-              <span class="dot"></span>
-              <span>Audits, monitoring, and fail-safes before vibes.</span>
+            <h1>
+              Bridge across chains with
+              <span class="grad">clarity</span> and
+              <span class="grad2">confidence</span>.
+            </h1>
+
+            <p class="lead">{brand.description}</p>
+
+            <div class="actions">
+              <a class="btn primary big" href={brand.primaryCta.href}>{brand.primaryCta.label}</a>
+              <a class="btn ghost big" href={brand.secondaryCta.href}>{brand.secondaryCta.label}</a>
+            </div>
+
+            <div class="trustrow" aria-label="Trust highlights">
+              <div class="trust">
+                <span class="ticon" aria-hidden="true">🔒</span>
+                <div>
+                  <div class="tbig">Security posture</div>
+                  <div class="tsub">Audits + monitoring + controls</div>
+                </div>
+              </div>
+              <div class="trust">
+                <span class="ticon" aria-hidden="true">🧾</span>
+                <div>
+                  <div class="tbig">Fee visibility</div>
+                  <div class="tsub">Expected received upfront</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="hero-right">
-            <div class="panel">
-              <div class="panel-top">
+          <div class="heroright">
+            <div class="glass">
+              <div class="glass-top">
                 <div>
-                  <div class="kicker">Quick Bridge</div>
-                  <div class="title">ETH → Arbitrum</div>
+                  <div class="kicker">App preview</div>
+                  <div class="gtitle">Bridge</div>
                 </div>
-                <span class="badge">Live UI mock</span>
+                <span class="chip">Demo UI</span>
               </div>
 
-              <div class="form">
-                <label>
-                  <span>Amount</span>
-                  <div class="input">
-                    <input placeholder="0.50" inputmode="decimal" />
+              <div class="glass-body">
+                <div class="field">
+                  <div class="flabel">You send</div>
+                  <div class="fbox">
+                    <input placeholder="0.50" inputmode="decimal" aria-label="Amount to send" />
                     <span class="unit">ETH</span>
                   </div>
-                </label>
-
-                <div class="row">
-                  <label>
-                    <span>From</span>
-                    <div class="select">Ethereum</div>
-                  </label>
-                  <label>
-                    <span>To</span>
-                    <div class="select">Arbitrum</div>
-                  </label>
                 </div>
 
-                <div class="quote">
-                  <div class="qrow">
-                    <span>Estimated received</span><strong>0.495 ETH</strong>
+                <div class="twocol">
+                  <div class="field">
+                    <div class="flabel">From</div>
+                    <div class="select">Ethereum</div>
                   </div>
-                  <div class="qrow">
-                    <span>Fees</span><strong>$3.12</strong>
+                  <div class="field">
+                    <div class="flabel">To</div>
+                    <div class="select">Arbitrum</div>
                   </div>
-                  <div class="qrow">
-                    <span>ETA</span><strong>~45s</strong>
-                  </div>
+                </div>
+
+                <div class="quote" aria-label="Quote">
+                  <div class="qrow"><span>Expected received</span><strong>0.495 ETH</strong></div>
+                  <div class="qrow"><span>Total fees</span><strong>$3.12</strong></div>
+                  <div class="qrow"><span>Estimated time</span><strong>~45s</strong></div>
                 </div>
 
                 <button class="btn primary full" type="button">Connect Wallet</button>
-                <p class="tiny">This is a landing-page mock. Wire it to your real app later.</p>
+                <p class="tiny">Landing mock. Wire this to your real bridge logic later.</p>
               </div>
             </div>
+
+            <div class="halo" aria-hidden="true"></div>
           </div>
         </section>
 
         <!-- STATS -->
-        <section class="stats" aria-label="Key stats">
+        <section class="stats" aria-label="Key metrics">
           {stats.map((s) => (
             <div class="stat">
-              <div class="stat-v">{s.value}</div>
-              <div class="stat-l">{s.label}</div>
+              <div class="sval">{s.value}</div>
+              <div class="slab">{s.label}</div>
             </div>
           ))}
         </section>
 
         <!-- FEATURES -->
         <section id="features" class="section">
-          <div class="section-head">
-            <h2>Everything you’d expect from a serious bridge</h2>
-            <p>Clear fees, route choice, safety posture, and a UI that doesn’t scream “exit liquidity.”</p>
-          </div>
+          <header class="head">
+            <h2>Built like infrastructure, not a vibe check</h2>
+            <p>
+              Aave’s feel comes from restraint: crisp hierarchy, clear numbers, and zero chaos.
+              Same idea here.
+            </p>
+          </header>
 
           <div class="grid">
-            {features.map((f) => (
+            {featureCards.map((f) => (
               <article class="card">
                 <h3>{f.title}</h3>
                 <p>{f.body}</p>
@@ -183,76 +260,73 @@ const roadmap = [
           </div>
         </section>
 
-        <!-- HOW IT WORKS -->
-        <section class="section">
-          <div class="section-head">
-            <h2>Three steps. No summoning rituals.</h2>
-            <p>Designed to be boring in the best way: predictable, inspectable, and fast.</p>
-          </div>
+        <!-- INTEGRATIONS -->
+        <section id="integrations" class="section">
+          <header class="head">
+            <h2>Integrations & guardrails</h2>
+            <p>Signals of seriousness: compatibility, monitoring, and safety controls.</p>
+          </header>
 
-          <div class="steps">
-            {steps.map((s) => (
-              <div class="step">
-                <div class="num">{s.n}</div>
-                <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                </div>
+          <div class="rowcards">
+            {integrations.map((i) => (
+              <div class="rowcard">
+                <div class="rname">{i.name}</div>
+                <div class="rnote">{i.note}</div>
               </div>
             ))}
           </div>
         </section>
 
         <!-- SECURITY -->
-        <section id="security" class="section security">
-          <div class="security-card">
-            <div class="security-left">
-              <h2>Security is a feature, not a PDF.</h2>
+        <section id="security" class="section">
+          <div class="security">
+            <div class="sec-left">
+              <h2>Security is a feature, not a footer link</h2>
               <p>
-                Your bridge is only as trustworthy as its assumptions. We reduce assumptions and
-                make the remaining ones visible.
+                Users don’t trust bridges because bridges have historically… well… exploded.
+                You earn trust with specifics.
               </p>
 
               <ul class="bullets">
-                <li>Audited core contracts (publish reports + diffs)</li>
-                <li>On-chain monitoring + incident playbooks</li>
-                <li>Rate limits & circuit breakers for anomalies</li>
-                <li>Minimal admin surface; time-lock where possible</li>
+                <li>Audits (publish reports + commits that match)</li>
+                <li>Runtime monitoring (alerts + anomaly detection)</li>
+                <li>Circuit breakers and rate limits for weird events</li>
+                <li>Minimal admin surface + timelocks where possible</li>
               </ul>
 
-              <div class="security-actions">
+              <div class="actions">
                 <a class="btn ghost" href="/security">Security page</a>
                 <a class="btn primary" href="/docs">Developer docs</a>
               </div>
             </div>
 
-            <div class="security-right">
-              <div class="shield" aria-hidden="true"></div>
-              <div class="mini">
-                <div class="mini-row"><span>Status</span><strong class="ok">Operational</strong></div>
-                <div class="mini-row"><span>Last incident</span><strong>None reported</strong></div>
-                <div class="mini-row"><span>Monitoring</span><strong>Realtime</strong></div>
+            <div class="sec-right" aria-label="Status card">
+              <div class="status">
+                <div class="strow"><span>Status</span><strong class="ok">Operational</strong></div>
+                <div class="strow"><span>Monitoring</span><strong>Realtime</strong></div>
+                <div class="strow"><span>Incidents</span><strong>None reported</strong></div>
+              </div>
+              <div class="sig">
+                <div class="sigtitle">Design principle</div>
+                <div class="sigbody">Make assumptions visible. Reduce the rest.</div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- ROADMAP -->
-        <section id="roadmap" class="section">
-          <div class="section-head">
-            <h2>Roadmap</h2>
-            <p>Ship value early, harden continuously, and keep the system legible.</p>
-          </div>
+        <!-- FAQ -->
+        <section id="faq" class="section">
+          <header class="head">
+            <h2>FAQ</h2>
+            <p>Answer the scary questions before users ask them on Twitter.</p>
+          </header>
 
-          <div class="roadmap">
-            {roadmap.map((r) => (
-              <div class="milestone">
-                <div class="q">{r.q}</div>
-                <div class="m-body">
-                  <h3>{r.title}</h3>
-                  <p>{r.body}</p>
-                </div>
-              </div>
+          <div class="faq">
+            {faq.map((item) => (
+              <details class="qa">
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
             ))}
           </div>
         </section>
@@ -260,186 +334,276 @@ const roadmap = [
         <!-- CTA -->
         <section class="cta">
           <div class="cta-inner">
-            <h2>Ready to bridge without drama?</h2>
-            <p>Launch the app, or read the docs and integrate AmicBridge into your dApp.</p>
-            <div class="hero-actions">
-              <a class="btn primary big" href={site.ctaPrimary.href}>{site.ctaPrimary.label}</a>
-              <a class="btn ghost big" href={site.ctaSecondary.href}>{site.ctaSecondary.label}</a>
+            <h2>Bridge without drama</h2>
+            <p>Launch the app or integrate AmicBridge into your product.</p>
+            <div class="actions center">
+              <a class="btn primary big" href={brand.primaryCta.href}>{brand.primaryCta.label}</a>
+              <a class="btn ghost big" href={brand.secondaryCta.href}>{brand.secondaryCta.label}</a>
             </div>
           </div>
         </section>
-      </main>
 
-      <footer class="footer">
-        <div class="foot-left">
-          <div class="brand small">
-            <span class="logo" aria-hidden="true"></span>
-            <span>{site.name}</span>
+        <!-- FOOTER -->
+        <footer class="footer">
+          <div class="fleft">
+            <div class="brand small">
+              <span class="logo" aria-hidden="true"></span>
+              <span class="brandtext">{brand.name}</span>
+            </div>
+            <p class="tiny">© {new Date().getFullYear()} {brand.name}. {brand.description}</p>
           </div>
-          <p class="tiny">
-            © {new Date().getFullYear()} {site.name}. Non-custodial bridge infrastructure.
-          </p>
-        </div>
 
-        <div class="foot-links">
-          <a href="/docs">Docs</a>
-          <a href="/security">Security</a>
-          <a href="/terms">Terms</a>
-          <a href="/privacy">Privacy</a>
-        </div>
-      </footer>
+          <div class="flinks">
+            <a href="/docs">Docs</a>
+            <a href="/security">Security</a>
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
+          </div>
+        </footer>
+      </main>
     </div>
+
+    <script is:inline>
+      const menu = document.getElementById("mobileMenu");
+      const btn = document.getElementById("menuBtn");
+      const close = document.getElementById("closeBtn");
+
+      function openMenu() {
+        menu.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+      function closeMenu() {
+        menu.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      }
+
+      btn?.addEventListener("click", openMenu);
+      close?.addEventListener("click", closeMenu);
+
+      menu?.addEventListener("click", (e) => {
+        if (e.target === menu) closeMenu();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !menu.hidden) closeMenu();
+      });
+
+      // Close menu when clicking links
+      menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+    </script>
 
     <style>
       :global(html, body) { height: 100%; }
       :global(body) {
         margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: #060713;
         color: rgba(255,255,255,0.92);
-        background: #070812;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
-      a { color: inherit; text-decoration: none; }
       * { box-sizing: border-box; }
+      a { color: inherit; text-decoration: none; }
+      .skip{
+        position: absolute; left: -999px; top: 10px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 10px 12px; border-radius: 12px;
+      }
+      .skip:focus{ left: 12px; z-index: 999; }
 
       .bg{
         min-height: 100vh;
         background:
-          radial-gradient(1200px 600px at 15% 10%, rgba(124,58,237,0.35), transparent 55%),
-          radial-gradient(900px 500px at 85% 15%, rgba(34,211,238,0.22), transparent 55%),
-          radial-gradient(900px 500px at 60% 85%, rgba(59,130,246,0.18), transparent 55%),
-          linear-gradient(180deg, #060713 0%, #070812 45%, #060713 100%);
+          radial-gradient(1100px 620px at 18% 8%, rgba(124,58,237,0.34), transparent 58%),
+          radial-gradient(900px 520px at 85% 12%, rgba(34,211,238,0.22), transparent 58%),
+          radial-gradient(900px 520px at 60% 85%, rgba(59,130,246,0.18), transparent 58%),
+          linear-gradient(180deg, #060713 0%, #070812 48%, #060713 100%);
       }
 
       .nav{
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 18px 22px;
+        position: sticky; top: 0; z-index: 30;
+        display:flex; align-items:center; justify-content: space-between;
+        padding: 16px 20px;
         border-bottom: 1px solid rgba(255,255,255,0.08);
-        background: rgba(7,8,18,0.68);
-        backdrop-filter: blur(10px);
+        background: rgba(6,7,19,0.62);
+        backdrop-filter: blur(12px);
       }
       .brand{
-        display:flex; align-items:center; gap:10px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
+        display:flex; align-items:center; gap: 10px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
       }
       .brand.small{ font-size: 14px; opacity: 0.95; }
+      .brandtext{ line-height: 1; }
       .logo{
         width: 14px; height: 14px; border-radius: 6px;
         background: linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,1));
-        box-shadow: 0 0 24px rgba(124,58,237,0.35);
+        box-shadow: 0 0 26px rgba(124,58,237,0.32);
       }
-      .links{ display:flex; gap: 16px; opacity: 0.9; }
-      .links a{ padding: 8px 10px; border-radius: 10px; }
+
+      .links{ display:flex; gap: 14px; opacity: 0.9; }
+      .links a{
+        padding: 8px 10px;
+        border-radius: 12px;
+      }
       .links a:hover{ background: rgba(255,255,255,0.06); }
 
-      .nav-cta{ display:flex; gap: 10px; }
+      .navcta{ display:flex; align-items:center; gap: 10px; }
 
       .btn{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        gap: 10px;
+        display:inline-flex; align-items:center; justify-content:center;
         padding: 10px 14px;
         border-radius: 14px;
         border: 1px solid rgba(255,255,255,0.12);
         background: rgba(255,255,255,0.06);
         color: rgba(255,255,255,0.92);
-        font-weight: 600;
+        font-weight: 700;
+        transition: transform .08s ease, background .15s ease, border-color .15s ease, filter .15s ease;
         cursor: pointer;
-        transition: transform .08s ease, background .15s ease, border-color .15s ease;
       }
       .btn:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
       .btn:active{ transform: translateY(1px); }
       .btn.primary{
         border-color: rgba(124,58,237,0.35);
-        background: linear-gradient(135deg, rgba(124,58,237,0.9), rgba(34,211,238,0.75));
-        box-shadow: 0 16px 40px rgba(124,58,237,0.22);
+        background: linear-gradient(135deg, rgba(124,58,237,0.92), rgba(34,211,238,0.78));
+        box-shadow: 0 18px 48px rgba(124,58,237,0.20);
       }
       .btn.primary:hover{ filter: brightness(1.04); }
       .btn.ghost{ background: rgba(255,255,255,0.02); }
       .btn.big{ padding: 12px 16px; border-radius: 16px; }
       .btn.full{ width: 100%; padding: 12px 16px; border-radius: 16px; }
 
-      main{ max-width: 1160px; margin: 0 auto; padding: 26px 18px 60px; }
+      .iconbtn{
+        display:none;
+        width: 42px; height: 42px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.9);
+        cursor:pointer;
+      }
+      .hamburger{
+        display:block;
+        width: 18px; height: 12px;
+        position: relative;
+        margin: 0 auto;
+      }
+      .hamburger::before, .hamburger::after{
+        content:"";
+        position:absolute; left:0; right:0;
+        height: 2px; border-radius: 99px;
+        background: rgba(255,255,255,0.85);
+      }
+      .hamburger::before{ top:0; }
+      .hamburger::after{ bottom:0; }
+
+      .wrap{ max-width: 1120px; margin: 0 auto; padding: 28px 18px 64px; }
 
       .hero{
         display:grid;
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: 1.12fr 0.88fr;
         gap: 22px;
-        padding: 28px 0 10px;
+        padding: 26px 0 10px;
+        align-items: center;
       }
       .pill{
-        display:inline-flex;
+        display:inline-flex; align-items:center; gap: 10px;
         padding: 8px 12px;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.12);
         background: rgba(255,255,255,0.04);
         font-size: 13px;
-        opacity: 0.9;
+        opacity: 0.95;
       }
-      h1{
-        margin: 14px 0 10px;
-        font-size: clamp(34px, 4vw, 54px);
-        line-height: 1.04;
-        letter-spacing: -0.02em;
-      }
-      .grad{
-        background: linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,1));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .sub{
-        margin: 0 0 18px;
-        max-width: 56ch;
-        color: rgba(255,255,255,0.78);
-        font-size: 16px;
-        line-height: 1.55;
-      }
-      .hero-actions{ display:flex; gap: 12px; flex-wrap: wrap; }
-      .hero-note{
-        margin-top: 14px;
-        display:flex; align-items:center; gap: 10px;
-        color: rgba(255,255,255,0.72);
-        font-size: 13px;
-      }
-      .dot{
+      .pulse{
         width: 8px; height: 8px; border-radius: 999px;
-        background: rgba(34,211,238,1);
-        box-shadow: 0 0 18px rgba(34,211,238,0.45);
+        background: rgba(34,211,238,0.95);
+        box-shadow: 0 0 16px rgba(34,211,238,0.45);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse{
+        0%,100%{ transform: scale(1); opacity: 0.75; }
+        50%{ transform: scale(1.35); opacity: 1; }
       }
 
-      .panel{
-        border-radius: 22px;
+      h1{
+        margin: 14px 0 10px;
+        font-size: clamp(36px, 4.2vw, 56px);
+        line-height: 1.03;
+        letter-spacing: -0.03em;
+      }
+      .grad{
+        background: linear-gradient(135deg, rgba(124,58,237,1), rgba(59,130,246,1));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .grad2{
+        background: linear-gradient(135deg, rgba(34,211,238,1), rgba(124,58,237,1));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .lead{
+        margin: 0 0 18px;
+        max-width: 60ch;
+        color: rgba(255,255,255,0.78);
+        line-height: 1.6;
+        font-size: 16px;
+      }
+      .actions{ display:flex; gap: 12px; flex-wrap: wrap; }
+      .actions.center{ justify-content: center; }
+
+      .trustrow{ margin-top: 18px; display:flex; gap: 10px; flex-wrap: wrap; }
+      .trust{
+        display:flex; gap: 10px; align-items:center;
+        padding: 12px 12px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.03);
+      }
+      .ticon{ font-size: 18px; }
+      .tbig{ font-weight: 800; font-size: 13px; }
+      .tsub{ font-size: 12px; opacity: 0.72; margin-top: 2px; }
+
+      .heroright{ position: relative; }
+      .halo{
+        position:absolute;
+        inset: -60px -40px -60px -40px;
+        background:
+          radial-gradient(260px 260px at 40% 35%, rgba(34,211,238,0.22), transparent 60%),
+          radial-gradient(320px 320px at 70% 55%, rgba(124,58,237,0.22), transparent 62%);
+        filter: blur(6px);
+        z-index: 0;
+        pointer-events:none;
+      }
+      .glass{
+        position: relative;
+        z-index: 1;
+        border-radius: 24px;
         border: 1px solid rgba(255,255,255,0.12);
         background: rgba(255,255,255,0.04);
-        box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        box-shadow: 0 34px 90px rgba(0,0,0,0.42);
         overflow:hidden;
       }
-      .panel-top{
+      .glass-top{
         display:flex; justify-content: space-between; align-items:center;
         padding: 16px 16px 12px;
         border-bottom: 1px solid rgba(255,255,255,0.10);
       }
-      .kicker{ font-size: 12px; opacity: 0.75; }
-      .title{ font-size: 14px; font-weight: 700; margin-top: 2px; }
-      .badge{
+      .kicker{ font-size: 12px; opacity: 0.70; }
+      .gtitle{ font-size: 15px; font-weight: 900; margin-top: 2px; letter-spacing: -0.01em; }
+      .chip{
         font-size: 12px;
         padding: 6px 10px;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.14);
         background: rgba(255,255,255,0.05);
-        opacity: 0.9;
+        opacity: 0.92;
       }
-      .form{ padding: 14px 16px 16px; display:flex; flex-direction: column; gap: 12px; }
-      label span{ display:block; font-size: 12px; opacity: 0.75; margin-bottom: 6px; }
-      .input{
+      .glass-body{ padding: 14px 16px 16px; display:flex; flex-direction: column; gap: 12px; }
+      .field{ display:flex; flex-direction: column; gap: 6px; }
+      .flabel{ font-size: 12px; opacity: 0.72; }
+      .fbox{
         display:flex; align-items:center; justify-content: space-between;
         padding: 12px 12px;
         border-radius: 16px;
@@ -447,35 +611,33 @@ const roadmap = [
         background: rgba(0,0,0,0.22);
       }
       input{
-        width: 100%;
+        width:100%;
         background: transparent;
         border: 0;
         outline: none;
         color: rgba(255,255,255,0.92);
         font-size: 16px;
       }
-      .unit{ opacity: 0.75; font-size: 13px; padding-left: 10px; }
-      .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .unit{ font-size: 13px; opacity: 0.74; padding-left: 10px; }
+      .twocol{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
       .select{
         padding: 12px 12px;
         border-radius: 16px;
         border: 1px solid rgba(255,255,255,0.12);
         background: rgba(0,0,0,0.22);
-        font-weight: 600;
+        font-weight: 800;
         opacity: 0.92;
       }
       .quote{
         border-radius: 16px;
         border: 1px solid rgba(255,255,255,0.10);
         background: rgba(255,255,255,0.03);
-        padding: 12px 12px;
-        display:flex;
-        flex-direction: column;
-        gap: 8px;
+        padding: 12px;
+        display:flex; flex-direction: column; gap: 8px;
       }
       .qrow{ display:flex; justify-content: space-between; color: rgba(255,255,255,0.78); font-size: 13px; }
-      .qrow strong{ color: rgba(255,255,255,0.92); font-weight: 700; }
-      .tiny{ margin: 0; font-size: 12px; opacity: 0.65; }
+      .qrow strong{ color: rgba(255,255,255,0.92); font-weight: 900; }
+      .tiny{ margin: 0; font-size: 12px; opacity: 0.65; line-height: 1.5; }
 
       .stats{
         margin: 22px 0 0;
@@ -489,20 +651,20 @@ const roadmap = [
         border: 1px solid rgba(255,255,255,0.10);
         background: rgba(255,255,255,0.03);
       }
-      .stat-v{ font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
-      .stat-l{ margin-top: 4px; font-size: 12px; opacity: 0.72; }
+      .sval{ font-size: 18px; font-weight: 950; letter-spacing: -0.02em; }
+      .slab{ margin-top: 4px; font-size: 12px; opacity: 0.70; }
 
-      .section{ padding: 52px 0 0; }
-      .section-head h2{
+      .section{ padding: 56px 0 0; }
+      .head h2{
         margin: 0 0 8px;
         font-size: clamp(22px, 2.4vw, 32px);
         letter-spacing: -0.02em;
       }
-      .section-head p{
+      .head p{
         margin: 0 0 18px;
         color: rgba(255,255,255,0.75);
-        max-width: 70ch;
-        line-height: 1.6;
+        max-width: 74ch;
+        line-height: 1.65;
       }
 
       .grid{
@@ -512,157 +674,175 @@ const roadmap = [
       }
       .card{
         padding: 18px 16px;
-        border-radius: 20px;
+        border-radius: 22px;
         border: 1px solid rgba(255,255,255,0.10);
         background: rgba(255,255,255,0.03);
+        transition: transform .12s ease, border-color .15s ease, background .15s ease;
       }
-      .card h3{ margin: 0 0 8px; font-size: 15px; }
-      .card p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+      .card:hover{
+        transform: translateY(-2px);
+        border-color: rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.04);
+      }
+      .card h3{ margin: 0 0 8px; font-size: 15px; letter-spacing: -0.01em; }
+      .card p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.65; font-size: 14px; }
 
-      .steps{
+      .rowcards{
         display:grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
       }
-      .step{
-        display:flex; gap: 12px; align-items:flex-start;
-        padding: 18px 16px;
+      .rowcard{
+        padding: 16px 14px;
         border-radius: 20px;
         border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.03);
+        background: rgba(0,0,0,0.16);
       }
-      .num{
-        width: 44px; height: 44px; border-radius: 16px;
-        display:flex; align-items:center; justify-content:center;
-        font-weight: 900;
-        background: rgba(124,58,237,0.18);
-        border: 1px solid rgba(124,58,237,0.22);
-      }
-      .step h3{ margin: 0 0 6px; font-size: 15px; }
-      .step p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+      .rname{ font-weight: 900; letter-spacing: -0.01em; }
+      .rnote{ margin-top: 6px; font-size: 12px; opacity: 0.70; line-height: 1.5; }
 
-      .security-card{
+      .security{
         display:grid;
         grid-template-columns: 1.2fr 0.8fr;
         gap: 14px;
         padding: 22px;
-        border-radius: 24px;
+        border-radius: 26px;
         border: 1px solid rgba(255,255,255,0.12);
         background:
-          radial-gradient(800px 300px at 20% 10%, rgba(124,58,237,0.20), transparent 55%),
-          radial-gradient(600px 280px at 90% 35%, rgba(34,211,238,0.14), transparent 55%),
+          radial-gradient(800px 360px at 20% 10%, rgba(124,58,237,0.20), transparent 58%),
+          radial-gradient(700px 320px at 90% 35%, rgba(34,211,238,0.14), transparent 58%),
           rgba(255,255,255,0.03);
       }
       .bullets{
         margin: 14px 0 16px;
         padding-left: 18px;
         color: rgba(255,255,255,0.78);
-        line-height: 1.7;
+        line-height: 1.75;
         font-size: 14px;
       }
-      .security-actions{ display:flex; gap: 10px; flex-wrap: wrap; }
-      .security-right{
-        display:flex; flex-direction: column; gap: 10px;
-        align-items: stretch; justify-content: center;
-      }
-      .shield{
-        height: 140px;
+      .sec-right{ display:flex; flex-direction: column; gap: 10px; justify-content:center; }
+      .status, .sig{
+        padding: 14px;
         border-radius: 22px;
-        border: 1px solid rgba(255,255,255,0.12);
-        background:
-          radial-gradient(120px 120px at 30% 35%, rgba(34,211,238,0.35), transparent 55%),
-          radial-gradient(180px 180px at 70% 55%, rgba(124,58,237,0.35), transparent 60%),
-          rgba(0,0,0,0.18);
-        box-shadow: 0 24px 60px rgba(0,0,0,0.35);
-      }
-      .mini{
-        padding: 14px 14px;
-        border-radius: 20px;
         border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(0,0,0,0.16);
+        background: rgba(0,0,0,0.18);
       }
-      .mini-row{
+      .strow{
         display:flex; justify-content: space-between;
         padding: 8px 0;
         border-bottom: 1px solid rgba(255,255,255,0.07);
-        color: rgba(255,255,255,0.78);
         font-size: 13px;
+        color: rgba(255,255,255,0.78);
       }
-      .mini-row:last-child{ border-bottom: 0; }
+      .strow:last-child{ border-bottom: 0; }
       .ok{ color: rgba(34,211,238,0.95); }
+      .sigtitle{ font-size: 12px; opacity: 0.72; }
+      .sigbody{ margin-top: 6px; font-weight: 900; letter-spacing: -0.01em; }
 
-      .roadmap{
-        display:grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-      .milestone{
-        display:flex; gap: 12px; align-items:flex-start;
-        padding: 18px 16px;
+      .faq{ display:grid; gap: 10px; }
+      .qa{
         border-radius: 20px;
         border: 1px solid rgba(255,255,255,0.10);
         background: rgba(255,255,255,0.03);
+        padding: 14px 14px;
       }
-      .q{
-        width: 44px; height: 44px; border-radius: 16px;
-        display:flex; align-items:center; justify-content:center;
+      summary{
+        cursor: pointer;
         font-weight: 900;
-        background: rgba(34,211,238,0.14);
-        border: 1px solid rgba(34,211,238,0.18);
+        letter-spacing: -0.01em;
+        list-style: none;
       }
-      .m-body h3{ margin: 0 0 6px; font-size: 15px; }
-      .m-body p{ margin: 0; color: rgba(255,255,255,0.74); line-height: 1.6; font-size: 14px; }
+      summary::-webkit-details-marker{ display:none; }
+      .qa p{
+        margin: 10px 0 0;
+        color: rgba(255,255,255,0.74);
+        line-height: 1.7;
+        font-size: 14px;
+      }
 
-      .cta{
-        padding: 52px 0 0;
-      }
+      .cta{ padding: 56px 0 0; }
       .cta-inner{
         padding: 26px 22px;
-        border-radius: 24px;
+        border-radius: 26px;
         border: 1px solid rgba(255,255,255,0.12);
         background:
-          radial-gradient(900px 350px at 50% 0%, rgba(124,58,237,0.22), transparent 60%),
+          radial-gradient(900px 360px at 50% 0%, rgba(124,58,237,0.22), transparent 62%),
           rgba(255,255,255,0.03);
-        text-align: center;
+        text-align:center;
       }
-      .cta-inner h2{
-        margin: 0 0 8px;
-        font-size: clamp(22px, 2.4vw, 32px);
-      }
+      .cta-inner h2{ margin: 0 0 8px; font-size: clamp(22px, 2.4vw, 32px); }
       .cta-inner p{
         margin: 0 auto 16px;
-        max-width: 70ch;
+        max-width: 72ch;
         color: rgba(255,255,255,0.75);
-        line-height: 1.6;
+        line-height: 1.65;
       }
-      .cta-inner .hero-actions{ justify-content: center; }
 
       .footer{
-        max-width: 1160px;
-        margin: 0 auto;
-        padding: 22px 18px 34px;
-        display:flex;
-        align-items:flex-start;
-        justify-content: space-between;
-        gap: 18px;
+        margin-top: 56px;
+        padding: 22px 0 6px;
         border-top: 1px solid rgba(255,255,255,0.08);
+        display:flex; align-items:flex-start; justify-content: space-between; gap: 18px;
       }
-      .foot-links{ display:flex; gap: 14px; opacity: 0.85; flex-wrap: wrap; }
-      .foot-links a:hover{ text-decoration: underline; }
+      .flinks{ display:flex; gap: 14px; opacity: 0.85; flex-wrap: wrap; }
+      .flinks a:hover{ text-decoration: underline; }
+
+      /* MOBILE MENU */
+      .mobile{
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(6px);
+        padding: 16px;
+      }
+      .mobile-inner{
+        max-width: 520px;
+        margin: 0 auto;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(6,7,19,0.92);
+        box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+        padding: 14px;
+      }
+      .mobile-top{
+        display:flex; align-items:center; justify-content: space-between;
+        padding: 6px 4px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      .mobile-links{
+        display:flex; flex-direction: column; gap: 10px;
+        padding: 12px 4px 4px;
+      }
+      .mobile-link{
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.04);
+        font-weight: 900;
+      }
+      .mobile-link:hover{ background: rgba(255,255,255,0.07); }
 
       /* Responsive */
       @media (max-width: 980px){
         .hero{ grid-template-columns: 1fr; }
         .stats{ grid-template-columns: repeat(2, 1fr); }
         .grid{ grid-template-columns: repeat(2, 1fr); }
-        .steps{ grid-template-columns: 1fr; }
-        .security-card{ grid-template-columns: 1fr; }
-        .roadmap{ grid-template-columns: 1fr; }
+        .rowcards{ grid-template-columns: repeat(2, 1fr); }
+        .security{ grid-template-columns: 1fr; }
         .links{ display:none; }
+        .iconbtn{ display:inline-flex; align-items:center; justify-content:center; }
+        .navcta .btn{ display:none; }
       }
       @media (max-width: 560px){
         .grid{ grid-template-columns: 1fr; }
-        .nav-cta{ display:none; }
+        .rowcards{ grid-template-columns: 1fr; }
+        .twocol{ grid-template-columns: 1fr; }
+      }
+
+      @media (prefers-reduced-motion: reduce){
+        .pulse{ animation: none; }
+        .card{ transition: none; }
       }
     </style>
   </body>
