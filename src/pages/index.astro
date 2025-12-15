@@ -4,14 +4,12 @@ const base = import.meta.env.BASE_URL;
 // helper: always build correct URL (works on / and subfolders)
 const img = (path) => `${base}${path.replace(/^\/+/, "")}`;
 
-// ✅ Put ALL your products here. IMPORTANT: keep this inside the --- frontmatter block.
 const products = [
   {
     id: "set-black",
     name: "Black Satin-Look Cami & Shorts Set",
     price: 400,
     image: "/images/set-black.png",
-    colors: ["Black"],
     sizes: ["S", "M", "L"],
     defaultColor: "Black",
   },
@@ -20,7 +18,6 @@ const products = [
     name: "White Satin-Look Cami & Shorts Set",
     price: 400,
     image: "/images/set-white.png",
-    colors: ["White"],
     sizes: ["S", "M", "L"],
     defaultColor: "White",
   },
@@ -29,7 +26,6 @@ const products = [
     name: "Nude Satin-Look Slip Dress",
     price: 400,
     image: "/images/nude-slipp-dress.png",
-    colors: ["Nude"],
     sizes: ["S", "M", "L"],
     defaultColor: "Nude",
   },
@@ -38,7 +34,6 @@ const products = [
     name: "White Satin-Look Slip Dress",
     price: 499,
     image: "/images/white-slip-dress.png",
-    colors: ["White"],
     sizes: ["S", "M", "L"],
     defaultColor: "White",
   },
@@ -47,7 +42,6 @@ const products = [
     name: "Black Satin-Look Chemise Dress",
     price: 499,
     image: "/images/black-chemise.png",
-    colors: ["Black"],
     sizes: ["S", "M", "L"],
     defaultColor: "Black",
   },
@@ -60,348 +54,165 @@ const formatPrice = (n) => `${n} kr`;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Amicbridge — Underwear designed for real life</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Amic — Underwear designed for real life</title>
     <meta
       name="description"
-      content="Amicbridge creates thoughtfully made underwear for women who value comfort, simplicity, and quiet confidence."
+      content="Amic underwear designed for real life. Comfort, simplicity, and quiet confidence."
     />
   </head>
 
   <body>
-    <div class="topbar">
-      <div class="container topbar__inner">
-        <span>Free shipping over 800 kr</span><span class="dot"></span>
-        <span>30-day easy returns</span><span class="dot"></span>
-        <span>Designed for real life</span>
-      </div>
-    </div>
-
     <header class="header">
       <div class="container header__inner">
-        <a class="brand" href="/">Amicbridge</a>
-
-        <nav class="nav" aria-label="Primary">
-          <a href="#shop">Shop</a>
-          <a href="#materials">Materials</a>
-          <a href="#fit">Fit Guide</a>
-          <a href="#story">Our Story</a>
-        </nav>
-
-        <div class="header__actions" aria-label="Actions">
-          <button class="iconBtn" type="button" aria-label="Search">⌕</button>
-          <button class="iconBtn" type="button" aria-label="Account">⌂</button>
-          <button class="iconBtn" type="button" aria-label="Cart">
-            ⊏⊐ <span class="badge" aria-label="Items in cart">0</span>
-          </button>
-        </div>
+        <strong class="brand">Amic</strong>
       </div>
     </header>
 
     <main>
-      <section class="hero" id="story">
+      <!-- HERO -->
+      <section class="hero">
         <div class="container hero__inner">
-          <div class="hero__copy">
-            <p class="eyebrow">Thoughtfully made • Minimal seams • All-day comfort</p>
+          <h1 class="hero__title">
+            Amic underwear designed <span class="em">for real life</span>
+          </h1>
 
-            <h1 class="hero__title">
-              Underwear designed <span class="em">for real life</span>
-            </h1>
+          <p class="hero__subtitle">
+            Thoughtfully made underwear for women who value comfort, simplicity,
+            and quiet confidence.
+          </p>
 
-            <p class="hero__subtitle">
-              Amicbridge creates thoughtfully made underwear for women who value comfort,
-              simplicity, and quiet confidence.
-            </p>
-
-            <div class="hero__cta">
-              <a class="btn btn--primary" href="#shop">Shop bestsellers</a>
-              <a class="btn btn--ghost" href="#materials">Learn about fabrics</a>
-            </div>
-
-            <div class="trust" role="list" aria-label="Highlights">
-              <div class="trust__item" role="listitem">
-                <span class="trust__icon">✓</span>
-                <div>
-                  <strong>Soft-touch satin look</strong>
-                  <div class="muted">Premium feel, easy care</div>
-                </div>
-              </div>
-              <div class="trust__item" role="listitem">
-                <span class="trust__icon">✓</span>
-                <div>
-                  <strong>Comfort-first fit</strong>
-                  <div class="muted">No digging, no fuss</div>
-                </div>
-              </div>
-              <div class="trust__item" role="listitem">
-                <span class="trust__icon">✓</span>
-                <div>
-                  <strong>Made to last</strong>
-                  <div class="muted">Quality stitching & finish</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero__media" aria-hidden="true">
-            <div class="mediaCard">
-              <div class="mediaCard__glow"></div>
-              <img
-                class="mediaCard__img"
-                src={img(products[0]?.image ?? "/images/set-black.png")}
-                alt=""
-                loading="eager"
-              />
-            </div>
-
-            <div class="floatingTag floatingTag--top">
-              <strong>New</strong> Satin-look sets
-            </div>
-            <div class="floatingTag floatingTag--bottom">
-              <strong>Best seller</strong> Slip dresses
-            </div>
-          </div>
+          <a href="#shop" class="btn">Shop collection</a>
         </div>
       </section>
 
-      <section class="shop" id="shop">
+      <!-- PRODUCTS -->
+      <section id="shop" class="shop">
         <div class="container">
-          <div class="sectionHead">
-            <div>
-              <h2>Shop</h2>
-              <p class="muted">Bestsellers, sets, slips, and comfort bras.</p>
-            </div>
-
-            <div class="controls" aria-label="Filters (static)">
-              <div class="field">
-                <input placeholder="Search products… (static)" disabled />
-              </div>
-              <div class="field">
-                <select disabled>
-                  <option>All sizes</option>
-                  <option>S</option>
-                  <option>M</option>
-                  <option>L</option>
-                </select>
-              </div>
-              <div class="field">
-                <select disabled>
-                  <option>Featured</option>
-                  <option>Price: Low → High</option>
-                  <option>Price: High → Low</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid" aria-label="Product list">
+          <div class="grid">
             {products.map((p) => (
               <article class="card" key={p.id}>
-                <a class="card__media" href="#" aria-label={`View ${p.name}`}>
-                  <img src={img(p.image)} alt={p.name} loading="lazy" />
-                </a>
-
-                <div class="card__body">
-                  <div class="card__top">
-                    <h3 class="card__title">{p.name}</h3>
-                    <div class="card__price">{formatPrice(p.price)}</div>
-                  </div>
-
-                  <div class="card__meta">
-                    <span class="pill">{p.defaultColor}</span>
-                    <span class="pill">{p.sizes.length} sizes</span>
-                  </div>
-
-                  <div class="card__actions">
-                    <select class="miniSelect" aria-label="Choose size">
-                      {p.sizes.map((s) => (
-                        <option value={s}>{s}</option>
-                      ))}
-                    </select>
-
-                    <button class="btn btn--primary btn--small" type="button">
-                      Add to cart
-                    </button>
-                  </div>
-                </div>
+                <img src={img(p.image)} alt={p.name} />
+                <h3>{p.name}</h3>
+                <p class="price">{formatPrice(p.price)}</p>
+                <button>Add to cart</button>
               </article>
             ))}
           </div>
         </div>
       </section>
-
-      <section class="info" id="materials">
-        <div class="container info__inner">
-          <div class="infoCard">
-            <h3>Materials that behave</h3>
-            <p class="muted">
-              Smooth, breathable, and designed to move. Less “lingerie costume”, more “everyday luxury”.
-            </p>
-            <a class="textLink" href="#fit">See fit guide →</a>
-          </div>
-
-          <div class="infoCard" id="fit">
-            <h3>Quiet confidence</h3>
-            <p class="muted">
-              Minimal seams, comfortable cuts, and colors that match real wardrobes.
-            </p>
-            <a class="textLink" href="#shop">Shop staples →</a>
-          </div>
-        </div>
-      </section>
-
-      <footer class="footer">
-        <div class="container footer__inner">
-          <div>
-            <div class="brand brand--small">Amicbridge</div>
-            <p class="muted">Comfort, simplicity, and quiet confidence.</p>
-          </div>
-          <div class="footerLinks">
-            <a href="#shop">Shop</a>
-            <a href="#materials">Materials</a>
-            <a href="#fit">Fit Guide</a>
-            <a href="#story">Our Story</a>
-          </div>
-        </div>
-      </footer>
     </main>
 
+    <footer class="footer">
+      <p>© {new Date().getFullYear()} Amic. All rights reserved.</p>
+    </footer>
+
     <style>
-      :global(:root){
-        --bg:#fbfbfa; --text:#0f0f10; --muted:#5c5c5f;
-        --line:rgba(15,15,16,.10); --shadow:0 18px 50px rgba(0,0,0,.10);
-        --shadow2:0 10px 28px rgba(0,0,0,.08);
-        --radius:18px; --radius2:26px; --max:1120px;
-      }
-      :global(*){box-sizing:border-box}
-      :global(html,body){height:100%}
-      :global(body){
-        margin:0;
-        font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-        background:
-          radial-gradient(1200px 700px at 15% -10%, rgba(255,188,170,.25), transparent 55%),
-          radial-gradient(900px 600px at 95% 0%, rgba(165,216,255,.30), transparent 60%),
-          var(--bg);
-        color:var(--text);
-      }
-      :global(a){color:inherit;text-decoration:none}
-      .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
-
-      .topbar{border-bottom:1px solid var(--line);background:rgba(255,255,255,.7);backdrop-filter:blur(10px)}
-      .topbar__inner{display:flex;gap:14px;align-items:center;justify-content:center;padding:10px 0;color:var(--muted);font-size:13px}
-      .dot{width:4px;height:4px;border-radius:999px;background:rgba(0,0,0,.25)}
-
-      .header{position:sticky;top:0;z-index:50;background:rgba(251,251,250,.6);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-      .header__inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:18px}
-      .brand{font-weight:700;letter-spacing:-.02em;font-size:18px}
-      .brand--small{font-size:16px}
-      .nav{display:flex;gap:18px;color:rgba(15,15,16,.75);font-size:14px}
-      .nav a{padding:10px 10px;border-radius:999px}
-      .nav a:hover{background:rgba(0,0,0,.05);color:var(--text)}
-      .header__actions{display:flex;gap:10px;align-items:center}
-      .iconBtn{
-        width:40px;height:40px;display:grid;place-items:center;border-radius:999px;
-        border:1px solid var(--line);background:rgba(255,255,255,.7);
-        cursor:pointer;position:relative
-      }
-      .iconBtn:hover{transform:translateY(-1px);box-shadow:var(--shadow2)}
-      .badge{
-        position:absolute;right:-4px;top:-4px;width:18px;height:18px;border-radius:999px;
-        display:grid;place-items:center;background:var(--text);color:#fff;font-size:11px;
-        border:2px solid rgba(255,255,255,.9)
+      :global(body) {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: #fbfbfa;
+        color: #0f0f10;
       }
 
-      .hero{padding:52px 0 34px}
-      .hero__inner{display:grid;grid-template-columns:1.2fr .9fr;gap:34px;align-items:center}
-      .eyebrow{margin:0 0 14px;color:rgba(15,15,16,.72);font-size:13px;letter-spacing:.02em}
-      .hero__title{margin:0;font-size:clamp(42px,5vw,72px);line-height:.95;letter-spacing:-.04em}
-      .hero__title .em{background:linear-gradient(90deg,rgba(15,15,16,1),rgba(15,15,16,.65));-webkit-background-clip:text;background-clip:text;color:transparent}
-      .hero__subtitle{margin:18px 0 0;font-size:16px;line-height:1.6;color:var(--muted);max-width:56ch}
-      .hero__cta{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
-
-      .btn{
-        display:inline-flex;align-items:center;justify-content:center;
-        border-radius:999px;padding:12px 16px;border:1px solid transparent;
-        font-weight:600;font-size:14px;cursor:pointer;
-        transition:transform .15s ease, box-shadow .15s ease, background .15s ease
-      }
-      .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow2)}
-      .btn--primary{background:var(--text);color:#fff}
-      .btn--ghost{background:rgba(255,255,255,.8);border-color:var(--line);color:var(--text)}
-      .btn--small{padding:10px 14px;font-size:13px}
-
-      .trust{margin-top:22px;display:grid;grid-template-columns:1fr;gap:10px;max-width:520px}
-      .trust__item{
-        display:flex;gap:12px;align-items:flex-start;padding:12px 14px;
-        background:rgba(255,255,255,.75);border:1px solid var(--line);
-        border-radius:var(--radius)
-      }
-      .trust__icon{
-        width:26px;height:26px;border-radius:999px;display:grid;place-items:center;
-        background:rgba(15,15,16,.08);border:1px solid var(--line);margin-top:2px
-      }
-      .muted{color:var(--muted);font-size:13px;margin-top:2px}
-
-      .hero__media{position:relative;display:grid;place-items:center}
-      .mediaCard{
-        width:min(420px,100%);aspect-ratio:4/5;border-radius:var(--radius2);
-        background:rgba(255,255,255,.85);border:1px solid var(--line);
-        box-shadow:var(--shadow);overflow:hidden;position:relative
-      }
-      .mediaCard__glow{
-        position:absolute;inset:-40%;
-        background:
-          radial-gradient(circle at 35% 30%, rgba(255,200,165,.55), transparent 55%),
-          radial-gradient(circle at 65% 40%, rgba(170,220,255,.55), transparent 55%);
-        filter:blur(10px)
-      }
-      .mediaCard__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;padding:18px;transform:scale(1.02)}
-      .floatingTag{
-        position:absolute;background:rgba(255,255,255,.85);border:1px solid var(--line);
-        border-radius:999px;padding:10px 12px;box-shadow:var(--shadow2);
-        font-size:13px;color:rgba(15,15,16,.85)
-      }
-      .floatingTag--top{top:10px;left:10px}
-      .floatingTag--bottom{bottom:10px;right:10px}
-
-      .shop{padding:24px 0 56px}
-      .sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
-      .sectionHead h2{margin:0;letter-spacing:-.02em;font-size:22px}
-      .controls{display:flex;gap:10px;flex-wrap:wrap}
-      .field input,.field select{
-        height:42px;padding:0 12px;border-radius:999px;border:1px solid var(--line);
-        background:rgba(255,255,255,.8);outline:none;font-size:14px
-      }
-      .field input:disabled,.field select:disabled{opacity:.7;cursor:not-allowed}
-
-      .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-      .card{
-        background:rgba(255,255,255,.86);border:1px solid var(--line);
-        border-radius:var(--radius2);overflow:hidden;
-        box-shadow:0 10px 26px rgba(0,0,0,.06);
-        transition:transform .18s ease, box-shadow .18s ease
-      }
-      .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-      .card__media{display:block;aspect-ratio:4/5;background:rgba(0,0,0,.03)}
-      .card__media img{width:100%;height:100%;object-fit:cover;padding:14px}
-      .card__body{padding:14px 14px 16px}
-      .card__top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-      .card__title{margin:0;font-size:14px;line-height:1.3;letter-spacing:-.01em}
-      .card__price{font-weight:700;font-size:14px;white-space:nowrap}
-      .card__meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-      .pill{
-        font-size:12px;padding:6px 10px;border-radius:999px;
-        border:1px solid var(--line);background:rgba(255,255,255,.75);
-        color:rgba(15,15,16,.78)
-      }
-      .card__actions{display:flex;gap:10px;margin-top:12px;align-items:center;justify-content:space-between}
-      .miniSelect{
-        height:40px;padding:0 12px;border-radius:999px;
-        border:1px solid var(--line);background:rgba(255,255,255,.85)
+      .container {
+        width: min(1100px, 90%);
+        margin: 0 auto;
       }
 
-      .info{padding:0 0 56px}
-      .info__inner{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-      .infoCard{
-        background:rgba(255,255,2
+      .header {
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 0;
+      }
+
+      .brand {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .hero {
+        padding: 80px 0 60px;
+        text-align: center;
+      }
+
+      .hero__title {
+        font-size: clamp(42px, 6vw, 72px);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin: 0;
+      }
+
+      .hero__title .em {
+        background: linear-gradient(90deg, #000, #666);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .hero__subtitle {
+        max-width: 600px;
+        margin: 20px auto 30px;
+        font-size: 16px;
+        color: #555;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 14px 22px;
+        border-radius: 999px;
+        background: #0f0f10;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .shop {
+        padding: 40px 0 80px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 14px;
+      }
+
+      .price {
+        font-weight: 700;
+        margin: 8px 0;
+      }
+
+      .card button {
+        margin-top: 10px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        border: none;
+        background: #0f0f10;
+        color: white;
+        cursor: pointer;
+      }
+
+      .footer {
+        border-top: 1px solid #e5e5e5;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </body>
+</html>
 
